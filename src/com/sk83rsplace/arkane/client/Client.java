@@ -7,20 +7,20 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import com.sk83rsplace.arkane.client.game.GameThread;
-
 public class Client extends Thread {
 	private static Socket connection = null;
     private static PrintWriter out = null;
     private static BufferedReader in = null;
-    private static boolean running = true;
-    private static int heartbeats;
-    private static final String ACTION_KICKED = "Kicked";
-    private static final String ACTION_ACCEPTED = "Connect";
-    private static final String ACTION_HEARTBEAT = "Ping";
-    private static final String ACTION_HEARTBEAT_RECEIVED = "Pong";
-    
-	public static void main(String argv[]) {
+    private boolean running = true;
+    private int heartbeats;
+    private final String ACTION_KICKED = "Kicked";
+    private final String ACTION_ACCEPTED = "Connect";
+    private final String ACTION_HEARTBEAT = "Ping";
+    private final String ACTION_HEARTBEAT_RECEIVED = "Pong";
+    private final String CLIENT_CREATE = "Create";
+    private final String CLIENT_UPDATE = "Update";
+
+	public Client() {
 		try {
 			connection = new Socket("josh-gaming-pc", 3371);
 		} catch (UnknownHostException e) {
@@ -36,8 +36,13 @@ public class Client extends Thread {
 			e.printStackTrace();
 		}
         
-        new GameThread();
-        
+        //new GameThread();
+        this.start();
+	}
+	
+	public void run() {
+		super.run();
+		
         String serverMessage = "";
         String lastMessage = "";
         
@@ -66,11 +71,30 @@ public class Client extends Thread {
 					case ACTION_HEARTBEAT_RECEIVED:
 						heartbeats--;
 						break;
+					case CLIENT_CREATE:
+						Board.clients.add(new Player(Integer.valueOf(args[2]), Integer.valueOf(args[3]), args[1]));
+						break;
+					case CLIENT_UPDATE:
+						boolean exists = false;
+						
+						for(Player p : Board.clients) {
+							if(p.username.equals(args[1])) {
+								exists = true;
+								p.pos.x = Integer.valueOf(args[2]);
+								p.pos.y = Integer.valueOf(args[3]);
+							}
+						}
+						
+						if(!exists)
+							Board.clients.add(new Player(Integer.valueOf(args[2]), Integer.valueOf(args[3]), args[1]));
+
+						System.out.println("Got an update: " + serverMessage);
+						break;
             	}
             	            	            	
             	lastMessage = serverMessage;
             }    
-        }        
+        }      
 	}
 	
 	private static void kicked(String reason) {
@@ -79,7 +103,7 @@ public class Client extends Thread {
 		System.exit(0);
 	}
 	
-	public static void update(String update) {
+	public void update(String update) {
 		String args[] = update.split(" ");
 		
 		switch(args[0]) {
@@ -94,7 +118,8 @@ public class Client extends Thread {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}					
-				}				
+				}
+				break;
 		}
 		
 		out.println(update);
