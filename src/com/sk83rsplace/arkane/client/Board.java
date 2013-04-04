@@ -30,6 +30,8 @@ public class Board extends BasicGame {
 	public static Stack<Menu> menuStack = new Stack<Menu>();
 	public static MouseButtons mouseButtons = new MouseButtons();
 	public static String username = "Bob";
+	public static int userID = 0;
+	public static int characterID = 0;
 	
 	public Board(String title) {
 		super(title);

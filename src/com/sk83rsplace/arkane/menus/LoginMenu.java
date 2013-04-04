@@ -35,7 +35,7 @@ public class LoginMenu extends Menu {
 		addComponent(errorMessage);
 	}
 	
-	void checkLogin() {		
+	private void checkLogin() {		
 		Map<String, String> params = new HashMap<String, String>();
 		
 		params.put("username", usernameField.getValue());
@@ -52,6 +52,7 @@ public class LoginMenu extends Menu {
 			} else {
 				errorMessage.setValue("");
 				Board.username = usernameField.getValue();
+				Board.userID = JSONParser.getInt("player_id");
 				Board.menuStack.pop();
 				Board.menuStack.add(new MainMenu());
 			}
@@ -59,6 +60,5 @@ public class LoginMenu extends Menu {
 			e.printStackTrace();
 			errorMessage.setValue("Unexpected Error!");
 		}
-
 	}
 }
