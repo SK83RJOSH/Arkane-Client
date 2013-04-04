@@ -89,6 +89,9 @@ public class MainMenu extends Menu {
 				characterComponents.add(component);
 				addComponent(component);
 			}
+			
+			if(characters.length() == 0)
+				addComponent(new TextComponent("You don't have any Characters!", Color.orange, -1, 98));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			errorMessage.setValue("Unexpected Error!");
