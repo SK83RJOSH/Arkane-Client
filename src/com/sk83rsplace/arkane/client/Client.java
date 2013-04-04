@@ -63,7 +63,7 @@ public class Client extends Thread {
 	            		kicked(serverMessage.replace(args[0] + " ", ""));
 	            		break;
 	            	case ACTION_ACCEPTED:
-	        	        out.println("Username SK83RJOSH");
+	        	        out.println("Username John");
 	            		break;
 	            	case ACTION_HEARTBEAT:
 	            		out.println("Pong");
