@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-//import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -25,7 +25,7 @@ public class Board extends BasicGame {
 	private static int STARTING_WIDTH = 640;
 	private static int STARTING_HEIGHT = 512;
 	private static ScalableGame game;
-//	private static Client client;
+	public static Client client;
 	public static CopyOnWriteArrayList<Player> clients = new CopyOnWriteArrayList<Player>();
 	public static Stack<Menu> menuStack = new Stack<Menu>();
 	public static MouseButtons mouseButtons = new MouseButtons();
@@ -44,11 +44,11 @@ public class Board extends BasicGame {
         			menuStack.peek().render(container, g);
         	}
         };
-        //client = new Client();
         
         AppGameContainer container = new AppGameContainer(game);
         container.setMultiSample(0);
         container.setVSync(true);
+        container.setTargetFrameRate(60);
         container.start();
     }
 
@@ -63,7 +63,7 @@ public class Board extends BasicGame {
 	}
 
 	public void init(GameContainer container) throws SlickException {
-		//clients.add(new Player(0, 0, "Me"));
+		clients.add(new Player(0, 0, "Me"));
 		menuStack.add(new LoginMenu());
 		
     	try {
@@ -87,45 +87,46 @@ public class Board extends BasicGame {
 			}
 		}
 		
-//		tick++;
-//		tick = tick%120;
-//		
-//		if(tick%30 == 0) {
-//			client.update("Ping");
-//		}
+		tick++;
+		tick = tick%120;
 		
-//		for(Player p : clients) {
-//			if(p.username == "Me" && lastX != ((int) p.pos.x) || p.username == "Me" && lastY != ((int) p.pos.y)) {
-//				client.update("Update John " + ((int) p.pos.x) + " " + ((int) p.pos.y));
-//
-//				lastX = ((int) p.pos.x);
-//				lastY = ((int) p.pos.y);
-//			}
-//		}
+		if(tick%30 == 0) {
+			if(Client.connected)
+				client.update("Ping");
+		}
 		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-//			for(Player p : clients)
-//				if(p.username == "Me")
-//					p.pos.set(p.pos.x, p.pos.y + 4);
-//		}
-//		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-//			for(Player p : clients)
-//				if(p.username == "Me")
-//					p.pos.set(p.pos.x, p.pos.y - 4);
-//		}
-//		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-//			for(Player p : clients)
-//				if(p.username == "Me")
-//					p.pos.set(p.pos.x + 4, p.pos.y);
-//		}
-//		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-//			for(Player p : clients)
-//				if(p.username == "Me")
-//					p.pos.set(p.pos.x - 4, p.pos.y);
-//		}
+		for(Player p : clients) {
+			if(p.username == "Me" && lastX != ((int) p.pos.x) && Client.connected || p.username == "Me" && lastY != ((int) p.pos.y) && Client.connected) {
+				client.update("Update " + characterID + " " + ((int) p.pos.x) + " " + ((int) p.pos.y));
+
+				lastX = ((int) p.pos.x);
+				lastY = ((int) p.pos.y);
+			}
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			for(Player p : clients)
+				if(p.username == "Me")
+					p.pos.set(p.pos.x, p.pos.y + 4);
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+			for(Player p : clients)
+				if(p.username == "Me")
+					p.pos.set(p.pos.x, p.pos.y - 4);
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+			for(Player p : clients)
+				if(p.username == "Me")
+					p.pos.set(p.pos.x + 4, p.pos.y);
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
+			for(Player p : clients)
+				if(p.username == "Me")
+					p.pos.set(p.pos.x - 4, p.pos.y);
+		}
 		
 		if(!menuStack.empty())
 			menuStack.peek().update(container);

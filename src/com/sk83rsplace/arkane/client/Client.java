@@ -19,25 +19,29 @@ public class Client extends Thread {
     private final String ACTION_HEARTBEAT_RECEIVED = "Pong";
     private final String CLIENT_CREATE = "Create";
     private final String CLIENT_UPDATE = "Update";
+    private final String CLIENT_DISCONNECT = "Disconnect";
+    public static boolean connected = false;
 
-	public Client() {
+	public Client(String server) {
 		try {
-			connection = new Socket("josh-gaming-pc", 3371);
+			connection = new Socket(server, 3371);
+			connected = true;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	
-        try {
-	        out = new PrintWriter(connection.getOutputStream(), true);
-	        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        } catch (IOException e) {
-			e.printStackTrace();
-		}
         
-        //new GameThread();
-        this.start();
+        if(connected) {
+            try {
+    	        out = new PrintWriter(connection.getOutputStream(), true);
+    	        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            } catch (IOException e) {
+    			e.printStackTrace();
+    		}
+            
+        	this.start();
+        }
 	}
 	
 	public void run() {
@@ -63,7 +67,7 @@ public class Client extends Thread {
 	            		kicked(serverMessage.replace(args[0] + " ", ""));
 	            		break;
 	            	case ACTION_ACCEPTED:
-	        	        out.println("Username John");
+	        	        out.println("Username " + Board.characterID);
 	            		break;
 	            	case ACTION_HEARTBEAT:
 	            		out.println("Pong");
@@ -89,6 +93,11 @@ public class Client extends Thread {
 							Board.clients.add(new Player(Integer.valueOf(args[2]), Integer.valueOf(args[3]), args[1]));
 
 						System.out.println("Got an update: " + serverMessage);
+						break;
+					case CLIENT_DISCONNECT:
+						for(Player c : Board.clients)
+							if(c.username.equals(args[1]))
+								Board.clients.remove(c);						
 						break;
             	}
             	            	            	
