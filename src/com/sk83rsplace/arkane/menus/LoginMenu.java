@@ -24,10 +24,10 @@ public class LoginMenu extends Menu {
 	private CheckBoxComponent rememberMe;
 	
 	public LoginMenu() {		
-		usernameField = new TextInputComponent("Username", Board.properties.getProperty("username"), -1, 200);
-		passwordField = new TextInputComponent("Password", Board.properties.getProperty("password"), -1, 250, true);
+		usernameField = new TextInputComponent("Username", (Board.properties.getProperty("username") == null ? "" : Board.properties.getProperty("username")), -1, 200);
+		passwordField = new TextInputComponent("Password", (Board.properties.getProperty("password") == null ? "" : Board.properties.getProperty("password")), -1, 250, true);
 		errorMessage = new TextComponent("", Color.yellow, -1, 360);
-		rememberMe = new CheckBoxComponent((Board.properties.getProperty("remember_me").equals("1") ? true : false), false, 370, 392) {
+		rememberMe = new CheckBoxComponent(((Board.properties.getProperty("remember_me") == null ? false : Board.properties.getProperty("remember_me").equals("1")) ? true : false), false, 370, 392) {
 			public void onInitialization(GameContainer container) {
 				addComponent(new LabelComponent("Remember Me", this));
 			}
