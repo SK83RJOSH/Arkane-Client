@@ -77,7 +77,7 @@ public class LoginMenu extends Menu {
 				Board.saveProperties();
 				
 				Board.menuStack.pop();
-				Board.menuStack.add(new MainMenu());
+				Board.menuStack.add(new SplashScreen());
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
