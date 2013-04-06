@@ -15,27 +15,21 @@ import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.CheckBoxComponent;
 import com.sk83rsplace.arkane.GUI.components.LabelComponent;
 import com.sk83rsplace.arkane.GUI.components.TextComponent;
-import com.sk83rsplace.arkane.GUI.components.TextInputComponent;
 import com.sk83rsplace.arkane.HTTP.HTTP;
 import com.sk83rsplace.arkane.client.Board;
-import com.sk83rsplace.arkane.client.Client;
 
 public class MainMenu extends Menu {
 	private TextComponent errorMessage;
-	private TextInputComponent serverAddress;
 	private ArrayList<CheckBoxComponent> characterComponents = new ArrayList<CheckBoxComponent>();
 	
 	public MainMenu() {
 		errorMessage = new TextComponent("", Color.yellow, -1, 392);
-		serverAddress = new TextInputComponent("Server Host", "vps.kieraan.co.uk", -1, Board.getHeight() - 15 - 50 - 64);
 		
 		addComponent(new TextComponent("Welcome " + Board.username + ",", Color.white, -1, 50));
 		addComponent(new TextComponent("Select your Character:", Color.white, -1, 66));
 		
 		getCharacters();
 		
-		addComponent(new TextComponent("Join a Server:", Color.white, -1, Board.getHeight() - 15 - 50 - 64 - 32));
-		addComponent(serverAddress);
 		addComponent(new ButtonComponent("Create New", 15, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
@@ -44,16 +38,12 @@ public class MainMenu extends Menu {
 		});
 		addComponent(new ButtonComponent("Continue", Board.getWidth() - 15 - 258, Board.getHeight() - 15 - 50) {
 			public void onClick() {
-				Board.client = new Client(serverAddress.getValue());
-				if(Client.connected)
-					Board.menuStack.pop();
-				else
-					errorMessage.setValue("Problem Connecting to server");
+				Board.menuStack.pop();
+				Board.menuStack.add(new ServerListMenu());
 			}
 		});
 		addComponent(errorMessage);
 	}
-	
 	
 	private void getCharacters() {
 		Map<String, String> params = new HashMap<String, String>();
