@@ -17,6 +17,7 @@ public class PauseMenu extends Menu {
 		});
 		addComponent(new ButtonComponent("Server Listing", -1, 192) {
 			public void onClick() {
+				Board.client.update("Disconnecting Leaving");
 				Client.connected = false;
 				Board.menuStack.pop();
 				Board.menuStack.add(new ServerListMenu());
