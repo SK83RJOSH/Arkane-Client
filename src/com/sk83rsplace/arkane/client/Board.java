@@ -86,13 +86,38 @@ public class Board extends BasicGame {
 		        mouseButtons.setNextState(button, false);
 			}
 		}
-		
-		tick++;
-		tick = tick%120;
-		
-		if(tick%30 == 0) {
-			if(Client.connected)
-				client.update("Ping");
+
+		if(Client.connected) {
+			tick++;
+			tick = tick%120;
+			
+			if(tick%30 == 0) {
+					client.update("Ping");
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+				for(Player p : clients)
+					if(p.username == "Me")
+						p.pos.set(p.pos.x, p.pos.y + 4);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+				for(Player p : clients)
+					if(p.username == "Me")
+						p.pos.set(p.pos.x, p.pos.y - 4);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+				for(Player p : clients)
+					if(p.username == "Me")
+						p.pos.set(p.pos.x + 4, p.pos.y);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
+				for(Player p : clients)
+					if(p.username == "Me")
+						p.pos.set(p.pos.x - 4, p.pos.y);
+			}
 		}
 		
 		for(Player p : clients) {
@@ -102,30 +127,6 @@ public class Board extends BasicGame {
 				lastX = ((int) p.pos.x);
 				lastY = ((int) p.pos.y);
 			}
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			for(Player p : clients)
-				if(p.username == "Me")
-					p.pos.set(p.pos.x, p.pos.y + 4);
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			for(Player p : clients)
-				if(p.username == "Me")
-					p.pos.set(p.pos.x, p.pos.y - 4);
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			for(Player p : clients)
-				if(p.username == "Me")
-					p.pos.set(p.pos.x + 4, p.pos.y);
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			for(Player p : clients)
-				if(p.username == "Me")
-					p.pos.set(p.pos.x - 4, p.pos.y);
 		}
 		
 		if(!menuStack.empty())
@@ -144,12 +145,9 @@ public class Board extends BasicGame {
 	
 	public static void startGame() {
 		menuStack.pop();
-		//Board.level = new Level("test.xml");
 	}
 	
 	public static void exitGame() {
 		menuStack.pop();
-		//Board.level = null;
-		//menuStack.add(new StartMenu());
 	}
 }

@@ -16,7 +16,8 @@ import com.sk83rsplace.arkane.client.Board;
  */
 public class TextInputComponent extends Component implements IValuedString {
 	private String placeholder = "", content = "";
-	private boolean isSelected, password;
+	private boolean isSelected = false;
+	private boolean password = false;
 	private int tick;
 	
 	public TextInputComponent(String placeholder, String content, int x, int y) {
@@ -76,7 +77,7 @@ public class TextInputComponent extends Component implements IValuedString {
 		tick = tick % 60;
 		
 		if(Keyboard.getEventKeyState() && lastchar != Keyboard.getEventCharacter() && isSelected || Keyboard.isRepeatEvent() && isSelected) {
-			if(Keyboard.getEventCharacter() != 0 && Keyboard.getEventKey() != Keyboard.KEY_BACK && Keyboard.getEventKey() != Keyboard.KEY_RETURN) {
+			if(Keyboard.getEventCharacter() != 0 && Keyboard.getEventKey() != Keyboard.KEY_BACK && Keyboard.getEventKey() != Keyboard.KEY_RETURN && Keyboard.getEventKey() != Keyboard.KEY_TAB) {
 				content += (Keyboard.getEventCharacter());
 				onValueChange();
 			} else {
@@ -89,6 +90,9 @@ public class TextInputComponent extends Component implements IValuedString {
 						break;
 					case Keyboard.KEY_RETURN:
 						isSelected = false;
+						break;
+					case Keyboard.KEY_TAB:
+						getParent().selectNext();
 						break;
 				}	
 			}
@@ -110,5 +114,13 @@ public class TextInputComponent extends Component implements IValuedString {
 	
 	public void onValueChange() {
 		System.out.println("Value changed, defaulted action.");
+	}
+	
+	public boolean getSelected() {
+		return isSelected;
+	}
+
+	public void setSelected(boolean isSelected) {
+		this.isSelected = isSelected;
 	}
 }

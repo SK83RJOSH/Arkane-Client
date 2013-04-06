@@ -16,6 +16,7 @@ public abstract class Component implements IRenderable {
 	private Dimension dim;
 	private boolean active;
 	private boolean initialized;
+	private Menu parent;
 	
 	public Component() {
 		dim = new Dimension();
@@ -65,10 +66,19 @@ public abstract class Component implements IRenderable {
 		return active;
 	}
 	
-	public void onInitialization(GameContainer container) {		System.out.println("Default Intialization.");
+	public void onInitialization(GameContainer container) {
+		System.out.println("Default Intialization.");
 	}
 	
 	public void reInitialize() {
 		initialized = false;
+	}
+	
+	public void setParent(Menu parent) {
+		this.parent = parent;
+	}
+	
+	public Menu getParent() {
+		return parent;
 	}
 }
