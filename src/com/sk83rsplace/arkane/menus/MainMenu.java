@@ -77,6 +77,8 @@ public class MainMenu extends Menu {
 								for(CheckBoxComponent c : characterComponents)
 									if(c != this)
 										c.setValue(false);
+							} else {
+								setValue(true);
 							}
 						} catch (JSONException e) {
 							e.printStackTrace();
