@@ -47,8 +47,6 @@ public class Client extends Thread {
 	public void run() {
 		super.run();
 		
-		out.println("Connect");
-		
         String serverMessage = "";
         String lastMessage = "";
         

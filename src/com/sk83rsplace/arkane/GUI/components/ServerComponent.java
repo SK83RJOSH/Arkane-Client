@@ -1,12 +1,5 @@
 package com.sk83rsplace.arkane.GUI.components;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -20,13 +13,10 @@ import com.sk83rsplace.arkane.client.Board;
 import com.sk83rsplace.arkane.client.Client;
 
 public class ServerComponent extends Component implements IClickable {
-	private Socket connection;
-    private PrintWriter out;
-    private BufferedReader in;
-	private long ping = -1;
+	private int ping = -1;
 	private int maxPlayers = -1;
 	private int currentPlayers = -1;
-	private final int MAX_TIMEOUT = 60 * 4; //8 Seconds
+	private final int MAX_TIMEOUT = 60 * 8; //8 Seconds
 	private int timeout = MAX_TIMEOUT;
 	private String serverAddress = "null";
 	private String serverBanner = "MOTD == UNIMPLEMENTED";
@@ -89,42 +79,7 @@ public class ServerComponent extends Component implements IClickable {
 	}
 	
 	private void collectInformation(String serverAddress) {
-		try {
-			connection = new Socket(serverAddress, 3371);
-	        out = new PrintWriter(connection.getOutputStream(), true);
-	        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		String serverMessage = "";
-		
-		if(out != null && in != null) {
-			out.println("Stats");
-			
-			ping = System.currentTimeMillis();
-			
-        	try {
-				serverMessage = in.readLine();
-	        	String[] args = serverMessage.split(" ");
-	        		        	
-	        	if(args.length == 2) {	        		
-	        		ping = System.currentTimeMillis() - ping;
-	    			this.currentPlayers = Integer.parseInt(args[0]);
-	    			this.maxPlayers = Integer.parseInt(args[1]);
-	        	}
-        	} catch (IOException e) {
-				e.printStackTrace();
-			} catch (NullPointerException e) {
-				ping = -1;
-				serverBanner = "Server may be offline!";
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				timeout = 1;
-			}
-		}
+		System.out.println("Grabbed info");
 	}
 
 	private void click() {		
