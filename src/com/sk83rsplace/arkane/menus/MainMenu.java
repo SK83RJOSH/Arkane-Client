@@ -29,7 +29,13 @@ public class MainMenu extends Menu {
 		addComponent(new TextComponent("Select your Character:", Color.white, -1, 66));
 		
 		getCharacters();
-		
+
+		addComponent(new ButtonComponent("Menu Tests", -1, Board.getHeight() - 15 - 110) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new TestsMenu());
+			}
+		});
 		addComponent(new ButtonComponent("Create New", 15, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
