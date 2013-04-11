@@ -42,7 +42,7 @@ public class LoginMenu extends Menu {
 			}
 		});
 		addComponent(errorMessage);
-		addComponent(rememberMe);
+		addComponent(rememberMe);		
 	}
 	
 	private void checkLogin() {		
