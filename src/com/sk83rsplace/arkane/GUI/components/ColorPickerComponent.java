@@ -4,6 +4,7 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.IValuedColor;
@@ -62,16 +63,39 @@ public class ColorPickerComponent extends Component implements IValuedColor {
 		Color tempColor = container.getGraphics().getPixel((int) getX() + currentColorX, (int) getY() + currentColorY);
 		content = new Color(tempColor.r, tempColor.g, tempColor.b, 1f);
 		
-		if(isActive() && Mouse.isButtonDown(0) && Mouse.getX() >= getX() + getWidth() - 31 && Mouse.getX() < getX() + getWidth() - 12 && (Board.getHeight() - Mouse.getY()) > getY() + padding && (Board.getHeight() - Mouse.getY()) <= getY() + padding + 256) {
-			color = container.getGraphics().getPixel(Mouse.getX(), (Board.getHeight() - Mouse.getY()));
-			currentHue = (int) ((Board.getHeight() - padding - Mouse.getY()) - getY());
-			onValueChange();
-		} else if(isActive() && Mouse.isButtonDown(0) && Mouse.getX() >= getX() + padding && Mouse.getX() < getX() + padding + 256 && (Board.getHeight() - Mouse.getY()) > getY() + padding && (Board.getHeight() - Mouse.getY()) < getY() + padding + 256) {
-			currentColorX = (int) (Mouse.getX() - getX());
-			currentColorY = (int) ((Board.getHeight() - Mouse.getY()) - getY());
-			selecting = true;
-			onValueChange();
+		if(isActive() && Mouse.getX() >= getX() + getWidth() - 31 && Mouse.getX() < getX() + getWidth() - 12 && (Board.getHeight() - Mouse.getY()) > getY() + padding && (Board.getHeight() - Mouse.getY()) <= getY() + padding + 256) {
+			if(Mouse.isButtonDown(0)) {
+				color = container.getGraphics().getPixel(Mouse.getX(), (Board.getHeight() - Mouse.getY()));
+				currentHue = (int) ((Board.getHeight() - padding - Mouse.getY()) - getY());
+				selecting = true;
+				onValueChange();
+			} else {
+				selecting = false;
+			}
+			
+			try {
+				container.setMouseCursor("res/hue_cursor.png", 8, 4);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		} else if(isActive() && Mouse.getX() >= getX() + padding && Mouse.getX() < getX() + padding + 256 && (Board.getHeight() - Mouse.getY()) > getY() + padding && (Board.getHeight() - Mouse.getY()) < getY() + padding + 256) {
+			if(Mouse.isButtonDown(0)) {
+				currentColorX = (int) (Mouse.getX() - getX());
+				currentColorY = (int) ((Board.getHeight() - Mouse.getY()) - getY());
+				selecting = true;
+				onValueChange();
+			} else {
+				selecting = false;
+			}
+			
+			try {
+				container.setMouseCursor("res/picker_cursor.png", 0, 16);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
+			container.setDefaultMouseCursor();
 			selecting = false;
 		}
 	}

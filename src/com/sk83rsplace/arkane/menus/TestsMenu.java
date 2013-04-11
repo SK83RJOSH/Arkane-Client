@@ -11,10 +11,17 @@ public class TestsMenu extends Menu {
 	public TestsMenu() {
 		addComponent(new TextComponent("Component Tests", Color.white, -1, 15));
 		
-		addComponent(new ButtonComponent("Color Picker", -1, 45) {
+		addComponent(new ButtonComponent("Color Picker", 15, 65) {
 			public void onClick() {
 				Board.menuStack.pop();
 				Board.menuStack.add(new ColorPickerMenu());
+			}
+		});
+		
+		addComponent(new ButtonComponent("Back", -1, Board.getHeight() - 15 - 50) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new MainMenu());
 			}
 		});
 	}
