@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
+import com.sk83rsplace.arkane.GUI.Fonts;
 import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.CheckBoxComponent;
@@ -25,8 +26,8 @@ public class MainMenu extends Menu {
 	public MainMenu() {
 		errorMessage = new TextComponent("", Color.yellow, -1, 392);
 		
-		addComponent(new TextComponent("Welcome " + Board.username + ",", Color.white, -1, 50));
-		addComponent(new TextComponent("Select your Character:", Color.white, -1, 66));
+		addComponent(new TextComponent("Welcome " + Board.username + ",", Color.white, Fonts.mediumPoint, -1, 50));
+		addComponent(new TextComponent("Select your Character:", Color.white, Fonts.mediumPoint, -1, 72));
 		
 		getCharacters();
 

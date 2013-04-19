@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.newdawn.slick.Color;
 
+import com.sk83rsplace.arkane.GUI.Fonts;
 import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.ServerComponent;
@@ -22,7 +23,7 @@ public class ServerListMenu extends Menu {
 	public ServerListMenu() {
 		errorMessage = new TextComponent("", Color.yellow, -1, 392);
 
-		addComponent(new TextComponent("Server Listing", Color.white, -1, 26));
+		addComponent(new TextComponent("Server Listing", Color.white, Fonts.mediumPoint, -1, 26));
 
 		getServers();
 		

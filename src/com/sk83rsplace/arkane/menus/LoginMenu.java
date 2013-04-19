@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
+import com.sk83rsplace.arkane.GUI.Fonts;
 import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.CheckBoxComponent;
@@ -33,7 +34,7 @@ public class LoginMenu extends Menu {
 			}
 		};
 		
-		addComponent(new TextComponent("Please Log-In!", Color.white, -1, 150));
+		addComponent(new TextComponent("Please Log-In!", Color.white, Fonts.mediumPoint, -1, 150));
 		addComponent(usernameField);
 		addComponent(passwordField);
 		addComponent(new ButtonComponent("Login", -1, 300) {

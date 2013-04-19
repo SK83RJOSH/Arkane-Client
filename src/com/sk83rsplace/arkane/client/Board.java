@@ -41,6 +41,7 @@ public class Board extends BasicGame {
 	public static String username = "Bob";
 	public static int userID = 0;
 	public static int characterID = 0;
+	public static Font font;
 	private boolean isToggled = false;
 	private int timeout = 0;
 	
@@ -72,16 +73,17 @@ public class Board extends BasicGame {
 	}
 
 	public void init(GameContainer container) throws SlickException {
-		loadProperties();
-		clients.add(new Player(0, 0, "Me"));
-		menuStack.add(new LoginMenu());
-		
     	try {
     		InputStream inputStream	= ResourceLoader.getResourceAsStream("res/fonts/Orion.ttf");    		
-    		container.setDefaultFont(new TrueTypeFont(Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(16f), false));
+    		font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+    		container.setDefaultFont(new TrueTypeFont(font.deriveFont(16f), false));
     	} catch (Exception e) {
     		e.printStackTrace();
     	} 
+		
+		loadProperties();
+		clients.add(new Player(0, 0, "Me"));
+		menuStack.add(new LoginMenu());
 	}
 
 	int tick = 0;

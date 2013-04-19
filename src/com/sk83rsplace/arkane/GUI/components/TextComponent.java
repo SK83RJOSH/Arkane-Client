@@ -4,8 +4,10 @@ import org.newdawn.slick.Color;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.TrueTypeFont;
 
 import com.sk83rsplace.arkane.GUI.Component;
+import com.sk83rsplace.arkane.GUI.Fonts;
 import com.sk83rsplace.arkane.GUI.IValuedString;
 
 /**
@@ -15,6 +17,7 @@ import com.sk83rsplace.arkane.GUI.IValuedString;
 public class TextComponent extends Component implements IValuedString {
 	private String content = "";
 	private Color textColor = Color.white;
+	private TrueTypeFont font = Fonts.normalPoint;
 	
 	public TextComponent(String content, Color textColor, int x, int y) {
 		this.content = content;
@@ -22,8 +25,15 @@ public class TextComponent extends Component implements IValuedString {
 		set(x, y);
 	}
 	
+	public TextComponent(String content, Color textColor, TrueTypeFont font, int x, int y) {
+		this.content = content;
+		this.textColor = textColor;
+		set(x, y);
+		this.font = font;
+	}
+	
 	public void render(GameContainer container, Graphics g) {
-		g.setFont(container.getDefaultFont());
+		g.setFont(font);
 		g.setColor(Color.black);
 		g.drawString(content, getX() + 2, getY() + 2);
 		
@@ -32,7 +42,7 @@ public class TextComponent extends Component implements IValuedString {
 	}
 
 	public void onInitialization(GameContainer container) {
-		setSize(container.getDefaultFont().getWidth(content), container.getDefaultFont().getHeight(content));
+		setSize(font.getWidth(content), font.getHeight(content));
 	}
 
 	public void onValueChange() {
