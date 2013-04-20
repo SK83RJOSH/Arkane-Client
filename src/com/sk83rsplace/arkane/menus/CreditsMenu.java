@@ -1,12 +1,13 @@
 package com.sk83rsplace.arkane.menus;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.util.ResourceLoader;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.Fonts;
@@ -21,9 +22,9 @@ public class CreditsMenu extends Menu {
 		generateCredits();
 	}
 	
-	private void generateCredits( ){		
+	private void generateCredits( ){
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("res/credits.txt"));
+			BufferedReader br = new BufferedReader(new InputStreamReader(ResourceLoader.getResourceAsStream("res/credits.txt"), "UTF-8"));
 			String line = br.readLine();
 			int yOffset = 16;
 			creditsHeight += 16;
