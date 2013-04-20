@@ -67,7 +67,6 @@ public class CreditsMenu extends Menu {
 			}
 			
 			creditsOffsetY++;
-			System.out.println(creditsOffsetY + " / " + creditsHeight);
 		} else {
 			Board.menuStack.pop();
 			Board.menuStack.add(new MainMenu());
