@@ -1,5 +1,6 @@
 LARGE_HEADER Credits
 
+
 MEDIUM_HEADER Lead Programming
 Joshua Wood
 
@@ -11,12 +12,11 @@ Kieran Breeze
 MEDIUM_HEADER Lore and Documentation
 Trevor Melton
 
-MEDIUM_HEADER Art and Design
-Hannah Melton
-
 
 MEDIUM_HEADER Special Thanks
-Joey
-Steven
-Dan
-And everyone else who helped make this possible!
+Dan Haluzska
+Joey "Killer" Toomey
+Steven "Hero" Dickbag
+
+
+MEDIUM_HEADER And everyone else!
