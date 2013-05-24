@@ -1,7 +1,8 @@
+
 LARGE_HEADER Credits
 
 
-MEDIUM_HEADER Lead Programming
+MEDIUM_HEADER Lead Programmer
 Joshua Wood
 
 MEDIUM_HEADER Additional Programming
@@ -9,14 +10,29 @@ Matthew Kaiser
 Kieran Breeze
 
 
-MEDIUM_HEADER Lore and Documentation
+MEDIUM_HEADER Lead Creative Director
+Michele Kruger
+
+MEDIUM_HEADER Additional Creative Direction
+Dan Fink
+Brandon Teller
+
+MEDIUM_HEADER Lead Sound Design
+Nathan Gaines
+Jared Scheurer
+Dan Fink
+
+MEDIUM_HEADER Lore & Original Concept
 Trevor Melton
 
 
-MEDIUM_HEADER Special Thanks
-Dan Haluzska
+MEDIUM_HEADER Quality Control & Creative Direction
+Brandon Teller
+
+MEDIUM_HEADER Gameplay & Quality Assurance
+Dan "Bree" Haluszka
 Joey "Killer" Toomey
-Steven "Hero" Dickbag
+Steven "Hero" Wight
 
 
-MEDIUM_HEADER And everyone else!
+LARGE_HEADER Thanks to Everyone else!

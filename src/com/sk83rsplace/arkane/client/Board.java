@@ -32,9 +32,11 @@ public class Board extends BasicGame {
 	private static int STARTING_HEIGHT = 512;
 	private static ScalableGame game;
 	public static Properties properties;
-	public static String userSettings;
+	public static String userSettingsLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Settings\\settings.prop";
 	public static File settings;
 	public static Client client;
+	public static String hotbedLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Hotbed";
+	public static File hotbed;
 	public static CopyOnWriteArrayList<Player> clients = new CopyOnWriteArrayList<Player>();
 	public static Stack<Menu> menuStack = new Stack<Menu>();
 	public static MouseButtons mouseButtons = new MouseButtons();
@@ -50,13 +52,13 @@ public class Board extends BasicGame {
 	}
 
     public static void main(String[] args) throws Exception {
-        game = new ScalableGame(new Board("Arkane Prototype"), STARTING_WIDTH, STARTING_HEIGHT) {
+        game = new ScalableGame(new Board("Aeternal Prototype"), STARTING_WIDTH, STARTING_HEIGHT) {
         	protected void renderOverlay(GameContainer container, Graphics g) {        		
         		if(!menuStack.isEmpty())
         			menuStack.peek().render(container, g);
         	}
         };
-        
+                
         AppGameContainer container = new AppGameContainer(game);
         container.setMultiSample(0);
         container.setVSync(true);
@@ -82,6 +84,7 @@ public class Board extends BasicGame {
     	} 
 		
 		loadProperties();
+        mountHotbed();
 		clients.add(new Player(0, 0, "Me"));
 		menuStack.add(new LoginMenu());
 	}
@@ -181,12 +184,11 @@ public class Board extends BasicGame {
 	}
 	
 	private void loadProperties() {
-		userSettings = System.getProperty("user.home") + "\\AppData\\Roaming\\.arkane\\settings.prop";
-		settings = new File(userSettings);
+		settings = new File(userSettingsLocation);
 		properties = new Properties();
 		
 		try {
-			properties.load(new FileInputStream(userSettings));
+			properties.load(new FileInputStream(userSettingsLocation));
 		} catch (IOException e) {			
 			try {
 				if(settings.getParentFile().mkdirs()) {
@@ -206,5 +208,49 @@ public class Board extends BasicGame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void mountHotbed() {
+		hotbed = new File(hotbedLocation);
+		
+		if(hotbed.exists()) {
+			scanHotbed();
+		} else {
+			if(hotbed.mkdirs())
+				scanHotbed();
+		}
+	}
+	
+	public static void scanHotbed() {
+		boolean triggeredScan = false;
+		File terrainHotbed = new File(hotbedLocation + "\\Terrain");
+		
+		if(terrainHotbed.exists()) {
+			triggeredScan = true;
+			
+			File[] terrainHotbedContents = terrainHotbed.listFiles();
+			
+			System.out.println("Scanning Terrain Hotbed . . .");
+			
+			for(File f : terrainHotbedContents) {
+				String fileName = f.getName();
+				
+				if(f.isDirectory()) {
+					File terrainData = new File(f.getAbsoluteFile() + "\\folder.adf");
+					
+					if(terrainData.exists()) {
+						//TODO: Make this useful
+						System.out.println("Processing folder.adf in " + fileName + " . . .");
+					} else {
+						System.out.println("No folder.adf found in " + fileName + "!");
+					}
+				} else {
+					System.out.println(fileName + " is NOT a directory!");
+				}
+			}
+		}
+		
+		if(!triggeredScan)
+			System.out.println("Nothing in Hotbed to scan . . .");
 	}
 }
