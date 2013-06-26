@@ -19,6 +19,13 @@ public class TestsMenu extends Menu {
 			}
 		});
 		
+		addComponent(new ButtonComponent("Hotbed Resources", 15, 128) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new ResourcesMenu());
+			}
+		});
+		
 		addComponent(new ButtonComponent("Credits Menu", Board.getWidth() - 258 - 15, 65) {
 			public void onClick() {
 				Board.menuStack.pop();

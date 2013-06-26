@@ -25,6 +25,10 @@ public class ImageComponent extends Component {
 		}
 	}
 	
+	public void setImage(Image image) {
+		this.image = image;
+	}
+	
 	public void render(GameContainer container, Graphics g) {
 		g.drawImage(image, getX(), getY());
 	}

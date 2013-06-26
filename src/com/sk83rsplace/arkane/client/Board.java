@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,6 +25,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
 import com.sk83rsplace.arkane.GUI.Menu;
+import com.sk83rsplace.arkane.client.resources.TerrainResource;
 import com.sk83rsplace.arkane.menus.LoginMenu;
 import com.sk83rsplace.arkane.menus.PauseMenu;
 
@@ -46,6 +48,7 @@ public class Board extends BasicGame {
 	public static Font font;
 	private boolean isToggled = false;
 	private int timeout = 0;
+	public static ArrayList<TerrainResource> terrainResources = new ArrayList<TerrainResource>();
 	
 	public Board(String title) {
 		super(title);
@@ -239,8 +242,8 @@ public class Board extends BasicGame {
 					File terrainData = new File(f.getAbsoluteFile() + "\\folder.adf");
 					
 					if(terrainData.exists()) {
-						//TODO: Make this useful
 						System.out.println("Processing folder.adf in " + fileName + " . . .");
+						terrainResources.add(new TerrainResource(terrainData));
 					} else {
 						System.out.println("No folder.adf found in " + fileName + "!");
 					}
