@@ -67,7 +67,7 @@ public abstract class Component implements IRenderable {
 	}
 	
 	public void onInitialization(GameContainer container) {
-		System.out.println("Default Intialization.");
+		//To be overridden.
 	}
 	
 	public void reInitialize() {

@@ -17,8 +17,8 @@ public class ResourcesMenu extends Menu {
 		addComponent(new TextComponent("Resources", Color.white, Fonts.mediumPoint, -1, 15));
 		
 		int offsetY = 40;
-		for(TerrainResource resources : Board.terrainResources) {
-			addComponent(new TextComponent(resources.getReference().getParentFile().getName(), Color.white, Fonts.normalPoint, -1, offsetY));
+		for(TerrainResource resources : Board.res.getTerrainDefinitions().values()) {
+			addComponent(new TextComponent(resources.getReferenceName(), Color.white, Fonts.normalPoint, -1, offsetY));
 			
 			int offsetX = 5;
 			int upgradeOffsetX = 5;

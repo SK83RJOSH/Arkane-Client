@@ -13,6 +13,7 @@ import org.newdawn.slick.util.xml.XMLParser;
 
 public class TerrainResource {
 	private File ADFRef;
+	private String referenceName;
 	private ArrayList<TerrainBase> bases = new ArrayList<TerrainBase>();
 	private ArrayList<TerrainUpgrade> upgrades = new ArrayList<TerrainUpgrade>();
 
@@ -49,6 +50,7 @@ public class TerrainResource {
 			e.printStackTrace();
 		}
 		
+		referenceName = ADFRef.getParentFile().getName();
 		System.out.println("Found " + bases.size() + " Base" + (bases.size() != 1 ? "s" : "") + " and " + upgrades.size() + " Upgrade" + (upgrades.size() != 1 ? "s" : "") + ".");
 	}
 	
@@ -80,5 +82,9 @@ public class TerrainResource {
 	
 	public File getReference() {
 		return ADFRef;
+	}
+	
+	public String getReferenceName() {
+		return referenceName;
 	}
 }

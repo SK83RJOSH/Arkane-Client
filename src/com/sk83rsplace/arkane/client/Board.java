@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,7 +24,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
 import com.sk83rsplace.arkane.GUI.Menu;
-import com.sk83rsplace.arkane.client.resources.TerrainResource;
+import com.sk83rsplace.arkane.client.resources.Resources;
 import com.sk83rsplace.arkane.menus.LoginMenu;
 import com.sk83rsplace.arkane.menus.PauseMenu;
 
@@ -37,18 +36,16 @@ public class Board extends BasicGame {
 	public static String userSettingsLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Settings\\settings.prop";
 	public static File settings;
 	public static Client client;
-	public static String hotbedLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Hotbed";
-	public static File hotbed;
 	public static CopyOnWriteArrayList<Player> clients = new CopyOnWriteArrayList<Player>();
 	public static Stack<Menu> menuStack = new Stack<Menu>();
 	public static MouseButtons mouseButtons = new MouseButtons();
+	public static Resources res;
 	public static String username = "Bob";
 	public static int userID = 0;
 	public static int characterID = 0;
 	public static Font font;
 	private boolean isToggled = false;
 	private int timeout = 0;
-	public static ArrayList<TerrainResource> terrainResources = new ArrayList<TerrainResource>();
 	
 	public Board(String title) {
 		super(title);
@@ -87,9 +84,10 @@ public class Board extends BasicGame {
     	} 
 		
 		loadProperties();
-        mountHotbed();
+		res = new Resources();
 		clients.add(new Player(0, 0, "Me"));
 		menuStack.add(new LoginMenu());
+		System.out.println("Game Ready.");
 	}
 
 	int tick = 0;
@@ -211,49 +209,5 @@ public class Board extends BasicGame {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void mountHotbed() {
-		hotbed = new File(hotbedLocation);
-		
-		if(hotbed.exists()) {
-			scanHotbed();
-		} else {
-			if(hotbed.mkdirs())
-				scanHotbed();
-		}
-	}
-	
-	public static void scanHotbed() {
-		boolean triggeredScan = false;
-		File terrainHotbed = new File(hotbedLocation + "\\Terrain");
-		
-		if(terrainHotbed.exists()) {
-			triggeredScan = true;
-			
-			File[] terrainHotbedContents = terrainHotbed.listFiles();
-			
-			System.out.println("Scanning Terrain Hotbed . . .");
-			
-			for(File f : terrainHotbedContents) {
-				String fileName = f.getName();
-				
-				if(f.isDirectory()) {
-					File terrainData = new File(f.getAbsoluteFile() + "\\folder.adf");
-					
-					if(terrainData.exists()) {
-						System.out.println("Processing folder.adf in " + fileName + " . . .");
-						terrainResources.add(new TerrainResource(terrainData));
-					} else {
-						System.out.println("No folder.adf found in " + fileName + "!");
-					}
-				} else {
-					System.out.println(fileName + " is NOT a directory!");
-				}
-			}
-		}
-		
-		if(!triggeredScan)
-			System.out.println("Nothing in Hotbed to scan . . .");
 	}
 }
