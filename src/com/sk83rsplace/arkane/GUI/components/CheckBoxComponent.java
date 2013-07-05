@@ -66,6 +66,6 @@ public class CheckBoxComponent extends Component implements IValuedBoolean {
 	}
 	
 	public void onValueChange() {
-		System.out.println("Value changed, defaulted action.");
+		//Override
 	}
 }

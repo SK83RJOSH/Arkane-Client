@@ -34,7 +34,7 @@ public class TextComponent extends Component implements IValuedString {
 	
 	public void render(GameContainer container, Graphics g) {
 		g.setFont(font);
-		g.setColor(Color.black);
+		g.setColor(new Color(0f, 0f, 0f, textColor.a));
 		g.drawString(content, getX() + 2, getY() + 2);
 		
 		g.setColor(textColor);
@@ -46,7 +46,6 @@ public class TextComponent extends Component implements IValuedString {
 	}
 
 	public void onValueChange() {
-		System.out.println("Default Action.");
 		reInitialize();
 	}
 

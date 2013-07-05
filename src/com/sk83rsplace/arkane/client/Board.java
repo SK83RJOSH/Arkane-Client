@@ -84,8 +84,8 @@ public class Board extends BasicGame {
     	} 
 		
 		loadProperties();
-		res = new Resources();
 		clients.add(new Player(0, 0, "Me"));
+		res = new Resources();
 		menuStack.add(new LoginMenu());
 		System.out.println("Game Ready.");
 	}
