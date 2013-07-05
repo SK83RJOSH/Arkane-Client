@@ -44,7 +44,6 @@ public class Board extends BasicGame {
 	public static int userID = 0;
 	public static int characterID = 0;
 	public static Font font;
-	public static boolean debugging = false;
 	private boolean isToggled = false;
 	private int timeout = 0;
 	
@@ -53,14 +52,6 @@ public class Board extends BasicGame {
 	}
 
     public static void main(String[] args) throws Exception {
-    	for(int index = 0; index < args.length; index++) {
-    		switch(args[index]) {
-    			case "devmode":
-    				debugging = true;
-    				break;
-    		}
-    	}
-    	
         game = new ScalableGame(new Board("Aeternal Prototype"), STARTING_WIDTH, STARTING_HEIGHT) {
         	protected void renderOverlay(GameContainer container, Graphics g) {        		
         		if(!menuStack.isEmpty())

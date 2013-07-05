@@ -16,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sk83rsplace.arkane.HTTP.HTTP;
-import com.sk83rsplace.arkane.client.Board;
 
 
 public class Resources {
@@ -27,11 +26,7 @@ public class Resources {
 	private HashMap<String, TerrainResource> terrainResources = new HashMap<String, TerrainResource>();
 	
 	public Resources() {
-		if(!Board.debugging)
-			checkResources();
-		else
-			System.out.println("Bypassing Filecheck . . .");
-		
+		checkResources();		
 		mountResources();
 	}
 	
