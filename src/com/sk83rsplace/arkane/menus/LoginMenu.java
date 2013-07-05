@@ -15,8 +15,8 @@ import com.sk83rsplace.arkane.GUI.components.CheckBoxComponent;
 import com.sk83rsplace.arkane.GUI.components.LabelComponent;
 import com.sk83rsplace.arkane.GUI.components.TextComponent;
 import com.sk83rsplace.arkane.GUI.components.TextInputComponent;
-import com.sk83rsplace.arkane.HTTP.HTTP;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.utils.HTTP;
 
 public class LoginMenu extends Menu {
 	private TextInputComponent usernameField;

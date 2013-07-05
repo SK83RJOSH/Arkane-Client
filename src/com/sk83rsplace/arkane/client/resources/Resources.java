@@ -15,7 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sk83rsplace.arkane.HTTP.HTTP;
+import com.sk83rsplace.arkane.utils.HTTP;
 
 
 public class Resources {
@@ -30,7 +30,7 @@ public class Resources {
 		mountResources();
 	}
 	
-	private void checkResources() {
+	public void checkResources() {
 		long startTime = System.currentTimeMillis();
 		HTTP httpConnection = new HTTP();
 		String JSONResult = httpConnection.post(remoteLocation + "arkaneResources.php", new HashMap<String, String>());
@@ -83,7 +83,7 @@ public class Resources {
 		System.out.println((System.currentTimeMillis() - startTime) + "ms taken to check resources.");
 	}
 	
-	private void mountResources() {
+	public void mountResources() {
 		resources = new File(resourceLocation);
 		
 		if(resources.exists()) {
@@ -95,10 +95,16 @@ public class Resources {
 				System.err.println("Couldn't create Resources Directory!");
 		}
 	}
+	
+	public void unmountResources() {
+		terrainResources.clear();
+		System.out.println("Resources Unmounted.");
+	}
 		
-	private void scanResources() {
+	public void scanResources() {
 		long startTime = System.currentTimeMillis();
 		File terrainRes = new File(resourceLocation + "\\Terrain");
+		unmountResources();
 		
 		if(terrainRes.exists()) {
 			File[] terrainResContents = terrainRes.listFiles();

@@ -13,8 +13,8 @@ import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.ServerComponent;
 import com.sk83rsplace.arkane.GUI.components.TextComponent;
-import com.sk83rsplace.arkane.HTTP.HTTP;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.utils.HTTP;
 
 public class ServerListMenu extends Menu {
 	private TextComponent errorMessage;

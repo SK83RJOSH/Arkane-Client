@@ -18,10 +18,11 @@ public class ResourcesMenu extends Menu {
 		
 		int offsetY = 40;
 		for(TerrainResource resources : Board.res.getTerrainDefinitions().values()) {
-			addComponent(new TextComponent(resources.getReferenceName(), Color.white, Fonts.normalPoint, -1, offsetY));
+			addComponent(new TextComponent(resources.getReferenceName() + " (" + resources.getBases().size() + " Base" + (resources.getBases().size() > 1 || resources.getBases().size() == 0 ? "s" : "") + ", " + resources.getUpgrades().size() + " Upgrade" + (resources.getUpgrades().size() > 1 || resources.getUpgrades().size() == 0 ? "s" : "") + ")", Color.white, Fonts.normalPoint, -1, offsetY));
 			
 			int offsetX = 5;
 			int upgradeOffsetX = 5;
+			boolean hadUpgrades = false;
 			for(final TerrainBase base : resources.getBases()) {
 				ImageComponent image = new ImageComponent(offsetX, offsetY + 20, "res/button.png");
 				image.setImage(base.getResource().getScaledCopy(0.5f));
@@ -43,15 +44,21 @@ public class ResourcesMenu extends Menu {
 					
 					upgradeOffsetX += 69;
 				}
+				
+				if(base.getValidUpgrades().size() > 0)
+					hadUpgrades = true;
 			}
 			
-			offsetY += 148;
+			if(hadUpgrades)
+				offsetY += 128;
+			else
+				offsetY += 74;
 		}
 		
 		addComponent(new ButtonComponent("Back", -1, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
-				Board.menuStack.add(new TestsMenu());
+				Board.menuStack.add(new ResourceManagerMenu());
 			}
 		});
 	}

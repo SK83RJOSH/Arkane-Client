@@ -16,8 +16,8 @@ import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.CheckBoxComponent;
 import com.sk83rsplace.arkane.GUI.components.LabelComponent;
 import com.sk83rsplace.arkane.GUI.components.TextComponent;
-import com.sk83rsplace.arkane.HTTP.HTTP;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.utils.HTTP;
 
 public class MainMenu extends Menu {
 	private TextComponent errorMessage;
@@ -31,10 +31,10 @@ public class MainMenu extends Menu {
 		
 		getCharacters();
 
-		addComponent(new ButtonComponent("Menu Tests", -1, Board.getHeight() - 15 - 110) {
+		addComponent(new ButtonComponent("Developer Tools", -1, Board.getHeight() - 15 - 110) {
 			public void onClick() {
 				Board.menuStack.pop();
-				Board.menuStack.add(new TestsMenu());
+				Board.menuStack.add(new DeveloperMenu());
 			}
 		});
 		

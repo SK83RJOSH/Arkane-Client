@@ -11,7 +11,7 @@ public class ColorPickerMenu extends Menu {
 		addComponent(new ButtonComponent("Back", 15, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
-				Board.menuStack.add(new TestsMenu());
+				Board.menuStack.add(new DeveloperMenu());
 			}
 		});
 		addComponent(new ButtonComponent("Reset", Board.getWidth() - 15 - 258, Board.getHeight() - 15 - 50) {
