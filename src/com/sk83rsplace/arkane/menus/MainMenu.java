@@ -31,24 +31,29 @@ public class MainMenu extends Menu {
 		
 		getCharacters();
 
-		addComponent(new ButtonComponent("Menu Tests", -1, Board.getHeight() - 15 - 110) {
-			public void onClick() {
-				Board.menuStack.pop();
-				Board.menuStack.add(new TestsMenu());
-			}
-		});
+		if(Board.debugging) {
+			addComponent(new ButtonComponent("Menu Tests", -1, Board.getHeight() - 15 - 110) {
+				public void onClick() {
+					Board.menuStack.pop();
+					Board.menuStack.add(new TestsMenu());
+				}
+			});
+		}
+		
 		addComponent(new ButtonComponent("Create New", 15, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
 				Board.menuStack.add(new CreationMenu());
 			}
 		});
+		
 		addComponent(new ButtonComponent("Continue", Board.getWidth() - 15 - 258, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
 				Board.menuStack.add(new ServerListMenu());
 			}
 		});
+		
 		addComponent(errorMessage);
 	}
 	
