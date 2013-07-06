@@ -44,6 +44,7 @@ public class Board extends BasicGame {
 	public static int userID = 0;
 	public static int characterID = 0;
 	public static Font font;
+	public static boolean debugging = false;
 	private boolean isToggled = false;
 	private int timeout = 0;
 	
@@ -84,6 +85,7 @@ public class Board extends BasicGame {
     	} 
 		
 		loadProperties();
+		debugging = ((Board.properties.getProperty("debug_mode") == null ? false : Board.properties.getProperty("remember_me").equals("1")) ? true : false);
 		clients.add(new Player(0, 0, "Me"));
 		res = new Resources();
 		menuStack.add(new LoginMenu());

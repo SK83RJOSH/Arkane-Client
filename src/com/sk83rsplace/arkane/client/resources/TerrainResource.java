@@ -12,14 +12,11 @@ import org.newdawn.slick.util.xml.XMLElementList;
 import org.newdawn.slick.util.xml.XMLParser;
 
 public class TerrainResource {
-	private File ADFRef;
 	private String referenceName;
 	private ArrayList<TerrainBase> bases = new ArrayList<TerrainBase>();
 	private ArrayList<TerrainUpgrade> upgrades = new ArrayList<TerrainUpgrade>();
 
-	public TerrainResource(File ADFRef) {
-		this.ADFRef = ADFRef;
-		
+	public TerrainResource(File ADFRef) {		
 		XMLParser parser = new XMLParser();
 		try {
 			String resourceLocation = ADFRef.getAbsolutePath().replace("folder.adf", "");
@@ -78,10 +75,6 @@ public class TerrainResource {
 	
 	public boolean isSolid(int baseID, int upgradeID) {
 		return (getBase(baseID).getFlags().contains("impassable") || getUpgrade(upgradeID).getFlags().contains("impassable"));
-	}
-	
-	public File getReference() {
-		return ADFRef;
 	}
 	
 	public String getReferenceName() {

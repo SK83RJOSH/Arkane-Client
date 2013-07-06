@@ -31,12 +31,14 @@ public class MainMenu extends Menu {
 		
 		getCharacters();
 
-		addComponent(new ButtonComponent("Developer Tools", -1, Board.getHeight() - 15 - 110) {
-			public void onClick() {
-				Board.menuStack.pop();
-				Board.menuStack.add(new DeveloperMenu());
-			}
-		});
+		if(Board.debugging) {
+			addComponent(new ButtonComponent("Developer Tools", -1, Board.getHeight() - 15 - 110) {
+				public void onClick() {
+					Board.menuStack.pop();
+					Board.menuStack.add(new DeveloperMenu());
+				}
+			});
+		}
 		
 		addComponent(new ButtonComponent("Create New", 15, Board.getHeight() - 15 - 50) {
 			public void onClick() {

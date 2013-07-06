@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sk83rsplace.arkane.client.Board;
 import com.sk83rsplace.arkane.utils.HTTP;
 
 
@@ -26,7 +27,9 @@ public class Resources {
 	private HashMap<String, TerrainResource> terrainResources = new HashMap<String, TerrainResource>();
 	
 	public Resources() {
-		checkResources();		
+		if(!Board.debugging)
+			checkResources();		
+		
 		mountResources();
 	}
 	

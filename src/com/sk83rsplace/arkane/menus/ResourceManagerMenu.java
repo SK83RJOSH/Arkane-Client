@@ -15,7 +15,7 @@ public class ResourceManagerMenu extends Menu {
 		final TextComponent status = new TextComponent("Waiting for User Input . . .", Color.yellow, -1, Board.getHeight() - Fonts.mediumPoint.getLineHeight() - 78);
 		addComponent(status);
 		
-		addComponent(new ButtonComponent("Resources", 15, 65) {
+		addComponent(new ButtonComponent("Resource Viewer", 15, 65) {
 			public void onClick() {
 				Board.menuStack.pop();
 				Board.menuStack.add(new ResourcesMenu());
@@ -28,6 +28,16 @@ public class ResourceManagerMenu extends Menu {
 				status.setValue("Refreshing Resources . . .");
 				Board.res.scanResources();
 				status.setValue("Resources Refreshed in " + (System.currentTimeMillis() - startTime) + "ms.");
+			}
+		});
+		
+		addComponent(new ButtonComponent("Force-Check Resources", 15, 128) {
+			public void onClick() {
+				long startTime = System.currentTimeMillis();
+				status.setValue("Checking Resources . . .");
+				Board.res.checkResources();
+				Board.res.scanResources();
+				status.setValue("Resources Checked & Refreshed in " + (System.currentTimeMillis() - startTime) + "ms.");
 			}
 		});
 		
