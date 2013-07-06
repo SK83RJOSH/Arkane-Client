@@ -95,16 +95,10 @@ public class Resources {
 				System.err.println("Couldn't create Resources Directory!");
 		}
 	}
-	
-	public void unmountResources() {
-		terrainResources.clear();
-		System.out.println("Resources Unmounted.");
-	}
 		
 	public void scanResources() {
 		long startTime = System.currentTimeMillis();
 		File terrainRes = new File(resourceLocation + "\\Terrain");
-		unmountResources();
 		
 		if(terrainRes.exists()) {
 			File[] terrainResContents = terrainRes.listFiles();

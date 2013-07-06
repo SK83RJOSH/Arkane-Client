@@ -1,5 +1,6 @@
 package com.sk83rsplace.arkane.client.resources;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -15,7 +16,8 @@ public class TerrainBase {
 	public TerrainBase(InputStream sprite, String flags, String upgrades, TerrainResource parent) {
 		try {
 			this.sprite = new Image(sprite, sprite.toString(), false);
-		} catch (SlickException e) {
+			sprite.close();
+		} catch (SlickException | IOException e) {
 			e.printStackTrace();
 		}
 	

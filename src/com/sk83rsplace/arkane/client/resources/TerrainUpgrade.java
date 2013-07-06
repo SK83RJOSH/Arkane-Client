@@ -1,5 +1,6 @@
 package com.sk83rsplace.arkane.client.resources;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.newdawn.slick.Image;
@@ -12,7 +13,8 @@ public class TerrainUpgrade {
 	public TerrainUpgrade(InputStream sprite, String flags) {
 		try {
 			this.sprite = new Image(sprite, sprite.toString(), false);
-		} catch (SlickException e) {
+			sprite.close();
+		} catch (SlickException | IOException e) {
 			e.printStackTrace();
 		}
 	
