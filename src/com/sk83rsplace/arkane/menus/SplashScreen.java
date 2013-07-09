@@ -8,8 +8,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
+import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.client.Board;
 
@@ -23,11 +23,7 @@ public class SplashScreen extends Menu {
 	private boolean skipped;
 	
 	public SplashScreen() {
-		try {
-			images.add(new Image("res/splash.png"));
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+		images.add(Images.splashScreen);
 	}
 	
 	public void render(GameContainer container, Graphics g) {

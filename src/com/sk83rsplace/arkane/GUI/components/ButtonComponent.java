@@ -18,7 +18,7 @@ import com.sk83rsplace.arkane.client.Board;
  */
 public class ButtonComponent extends Component implements IClickable {
 	private String text;
-	private boolean isPressed;
+	private boolean isPressed, isStatic;
 	protected Image buttonImage = Images.defaultImage;
 	
 	public ButtonComponent(String text, int x, int y) {
@@ -46,7 +46,7 @@ public class ButtonComponent extends Component implements IClickable {
 			g.drawImage(buttonImage.getSubImage(0, 0, getWidth(), getHeight()), getX(), getY());
 		} else {
 			if(Board.mouseButtons.isDown(0)) {
-				g.drawImage(buttonImage.getSubImage(getWidth() * 2, 0, getWidth(), getHeight()), getX() + 1, getY() + 1);
+				g.drawImage(buttonImage.getSubImage(getWidth() * 2, 0, getWidth(), getHeight()), getX() + (isStatic ? 0 : 1), getY() + (isStatic ? 0 : 1));
 			} else {
 				g.drawImage(buttonImage.getSubImage(getWidth(), 0, getWidth(), getHeight()), getX(), getY());
 			}
@@ -54,6 +54,12 @@ public class ButtonComponent extends Component implements IClickable {
 		
 		g.setColor(Color.white);
 		g.drawString(text, (1 + offset)  + getX() + (getWidth() / 2) - (container.getDefaultFont().getWidth(text) / 2), (1 + offset) + getY() + (getHeight() / 2) - (container.getDefaultFont().getLineHeight() / 2));		
+	}
+	
+	public ButtonComponent makeStatic() {
+		isStatic = true;
+		
+		return this;
 	}
 	
 	public void update(GameContainer container) {

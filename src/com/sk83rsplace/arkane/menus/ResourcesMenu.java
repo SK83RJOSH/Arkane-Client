@@ -23,24 +23,14 @@ public class ResourcesMenu extends Menu {
 			int offsetX = 5;
 			int upgradeOffsetX = 5;
 			boolean hadUpgrades = false;
-			for(final TerrainBase base : resources.getBases()) {
-				ImageComponent image = new ImageComponent(offsetX, offsetY + 20, "res/button.png");
-				image.setImage(base.getResource().getScaledCopy(0.5f));
-				
-				addComponent(image);
+			for(final TerrainBase base : resources.getBases()) {				
+				addComponent(new ImageComponent(offsetX, offsetY + 20, base.getResource().getScaledCopy(0.5f)));
 				
 				offsetX += 69;
 				
-				for(final TerrainUpgrade upgrade : base.getValidUpgrades()) {
-					ImageComponent baseWithUpgradeImage = new ImageComponent(upgradeOffsetX, offsetY + 89, "res/button.png");
-					baseWithUpgradeImage.setImage(base.getResource().getScaledCopy(0.145f));
-					
-					addComponent(baseWithUpgradeImage);
-					
-					ImageComponent upgradeImage = new ImageComponent(upgradeOffsetX, offsetY + 89, "res/button.png");
-					upgradeImage.setImage(upgrade.getResource().getScaledCopy(0.5f));
-					
-					addComponent(upgradeImage);
+				for(final TerrainUpgrade upgrade : base.getValidUpgrades()) {					
+					addComponent(new ImageComponent(upgradeOffsetX, offsetY + 89, base.getResource().getScaledCopy(0.145f)));					
+					addComponent(new ImageComponent(upgradeOffsetX, offsetY + 89, upgrade.getResource().getScaledCopy(0.5f)));
 					
 					upgradeOffsetX += 69;
 				}

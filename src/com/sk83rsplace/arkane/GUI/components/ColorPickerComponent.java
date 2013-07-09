@@ -4,10 +4,12 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.IValuedColor;
+import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.client.Board;
 
 public class ColorPickerComponent extends Component implements IValuedColor {
@@ -18,6 +20,7 @@ public class ColorPickerComponent extends Component implements IValuedColor {
 	private int currentColorX = 256 + padding - 4;
 	private int currentColorY = padding + 4;
 	private boolean selecting = false;
+	private Image lastCursor = null;
 	
 	public ColorPickerComponent(int x, int y) {
 		setSize(307, 272);
@@ -45,16 +48,13 @@ public class ColorPickerComponent extends Component implements IValuedColor {
 		g.setColor(Color.gray);
 		g.drawRect(getX() + getWidth() + padding - 40, getY() + padding - 1, 20, 257);
 		
-		new ImageComponent((int) getX() + padding, (int) getY() + padding, "res/color_overlay.png").render(container, g);
-		new ImageComponent((int) getX() + padding + getWidth() - 39, (int) getY() + padding, "res/color_hue_picker.png").render(container, g);
-		new ImageComponent((int) getX() + padding + getWidth() - 18, (int) getY() + padding + currentHue - 3, "res/color_handle.png").render(container, g);
+		new ImageComponent((int) getX() + padding, (int) getY() + padding, Images.colorOverlay).render(container, g);
+		new ImageComponent((int) getX() + padding + getWidth() - 39, (int) getY() + padding, Images.colorHue).render(container, g);
+		new ImageComponent((int) getX() + padding + getWidth() - 18, (int) getY() + padding + currentHue - 3, Images.colorHandle).render(container, g);
 		
 		g.setColor(Color.white);
 		if(!selecting)
 			g.drawOval(getX() + currentColorX - 4, getY() + currentColorY - 4, 8, 8);
-		
-//		g.setColor(content);
-//		g.fillRect(getX(), getY(), 16, 16);
 	}
 	
 	public void update(GameContainer container) {
@@ -74,7 +74,10 @@ public class ColorPickerComponent extends Component implements IValuedColor {
 			}
 			
 			try {
-				container.setMouseCursor("res/hue_cursor.png", 8, 4);
+				if(lastCursor != Images.cursorHue) {
+					container.setMouseCursor(Images.cursorHue, 8, 4);
+					lastCursor = Images.cursorHue;
+				}
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
@@ -89,13 +92,16 @@ public class ColorPickerComponent extends Component implements IValuedColor {
 			}
 			
 			try {
-				container.setMouseCursor("res/picker_cursor.png", 0, 16);
+				if(lastCursor != Images.cursorPicker) {
+					container.setMouseCursor(Images.cursorPicker, 0, 16);
+					lastCursor = Images.cursorPicker;
+				}
 			} catch (SlickException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
 			container.setDefaultMouseCursor();
+			lastCursor = null;
 			selecting = false;
 		}
 	}

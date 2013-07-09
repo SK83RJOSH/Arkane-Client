@@ -3,7 +3,6 @@ package com.sk83rsplace.arkane.GUI.components;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 import com.sk83rsplace.arkane.GUI.Component;
 
@@ -14,15 +13,10 @@ import com.sk83rsplace.arkane.GUI.Component;
 public class ImageComponent extends Component {
 	private Image image;
 	
-	public ImageComponent(int x, int y, String res) {
-		try {
-			image = new Image(res);
-
-			set(x, y);
-			setSize(image.getWidth(), image.getHeight());
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
+	public ImageComponent(int x, int y, Image image) {
+		setImage(image);
+		set(x, y);
+		setSize(image.getWidth(), image.getHeight());
 	}
 	
 	public void setImage(Image image) {
