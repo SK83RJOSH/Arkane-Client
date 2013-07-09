@@ -9,6 +9,7 @@ import org.newdawn.slick.Sound;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.IClickable;
+import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.client.Board;
 
 /**
@@ -18,38 +19,41 @@ import com.sk83rsplace.arkane.client.Board;
 public class ButtonComponent extends Component implements IClickable {
 	private String text;
 	private boolean isPressed;
-	private Image buttonImage;
+	protected Image buttonImage = Images.defaultImage;
 	
 	public ButtonComponent(String text, int x, int y) {
 		this.text = text;
 		
 		set(x, y);
+		setSize(buttonImage.getWidth() / 3, buttonImage.getHeight());
+	}
+	
+	public ButtonComponent(String text, Image buttonImage, int x, int y) {
+		this.text = text;
+		this.buttonImage= buttonImage;
 		
-		try {
-			buttonImage = new Image("res/button.png");
-			
-			setSize(buttonImage.getWidth(), buttonImage.getHeight());
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}	
+		set(x, y);
+		setSize(buttonImage.getWidth() / 3, buttonImage.getHeight());
 	}
 	
 	public void render(GameContainer container, Graphics g) {
 		g.setFont(container.getDefaultFont());
 		
-		float val = 1.00f - (isActive() ? (Board.mouseButtons.isDown(0) ? 0.20f : 0.10f) : 0.00f);
 		int offset = (isActive() ? (Board.mouseButtons.isDown(0) ? 1 : 0) : 0);
 		
-		g.drawImage(buttonImage, getX() + 1, getY() + 1, new Color(val, val, val));
 		
-		if(!(Board.mouseButtons.isDown(0)) && isActive() || !isActive())
-			g.drawImage(buttonImage, getX(), getY(), new Color(val, val, val));
-
-		g.setColor(Color.black);
-		g.drawString(text, (3 + offset) + getX() + (getWidth() / 2) - (container.getDefaultFont().getWidth(text) / 2), (3 + offset) + getY() + (getHeight() / 2) - (container.getDefaultFont().getHeight(text) / 2));
-	
+		if(!isActive()) {
+			g.drawImage(buttonImage.getSubImage(0, 0, getWidth(), getHeight()), getX(), getY());
+		} else {
+			if(Board.mouseButtons.isDown(0)) {
+				g.drawImage(buttonImage.getSubImage(getWidth() * 2, 0, getWidth(), getHeight()), getX() + 1, getY() + 1);
+			} else {
+				g.drawImage(buttonImage.getSubImage(getWidth(), 0, getWidth(), getHeight()), getX(), getY());
+			}
+		}
+		
 		g.setColor(Color.white);
-		g.drawString(text, (1 + offset)  + getX() + (getWidth() / 2) - (container.getDefaultFont().getWidth(text) / 2), (1 + offset) + getY() + (getHeight() / 2) - (container.getDefaultFont().getHeight(text) / 2));		
+		g.drawString(text, (1 + offset)  + getX() + (getWidth() / 2) - (container.getDefaultFont().getWidth(text) / 2), (1 + offset) + getY() + (getHeight() / 2) - (container.getDefaultFont().getLineHeight() / 2));		
 	}
 	
 	public void update(GameContainer container) {
@@ -74,6 +78,6 @@ public class ButtonComponent extends Component implements IClickable {
 	}
 
 	public void onClick() {
-		System.out.println("Default Action!");
+		//To be overridden
 	}
 }

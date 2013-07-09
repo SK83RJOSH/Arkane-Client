@@ -86,7 +86,6 @@ public class Board extends BasicGame {
 		
 		loadProperties();
 		debugging = ((Board.properties.getProperty("debug_mode") == null ? false : Board.properties.getProperty("remember_me").equals("1")) ? true : false);
-		clients.add(new Player(0, 0, "Me"));
 		res = new Resources();
 		menuStack.add(new LoginMenu());
 		System.out.println("Game Ready.");

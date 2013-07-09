@@ -40,6 +40,10 @@ public abstract class Menu implements IRenderable  {
 		components.add(c);
 	}
 	
+	public void removeComponent(Component c) {
+		components.remove(c);
+	}
+	
 	public void destroy() {
 		components.clear();
 	}

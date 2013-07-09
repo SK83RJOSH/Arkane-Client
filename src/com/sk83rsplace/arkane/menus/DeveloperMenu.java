@@ -33,6 +33,13 @@ public class DeveloperMenu extends Menu {
 			}
 		});
 		
+		addComponent(new ButtonComponent("Level Editor", Board.getWidth() - 258 - 15, 128) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new MapEditor());
+			}
+		});
+		
 		addComponent(new ButtonComponent("Back", -1, Board.getHeight() - 15 - 50) {
 			public void onClick() {
 				Board.menuStack.pop();
