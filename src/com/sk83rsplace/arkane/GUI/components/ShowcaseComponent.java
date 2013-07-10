@@ -3,8 +3,6 @@ package com.sk83rsplace.arkane.GUI.components;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.IClickable;
@@ -67,26 +65,21 @@ public class ShowcaseComponent extends Component implements IClickable {
 		super.update(container);
 		
 		if(isActive() && Board.mouseButtons.wasReleased(0)) {
-			if(!isToggled) {
-				click();
-			}
+			click();
 		}
 	}
 	
 	private void click() {
-		setToggled(true);
-		
-		try {
-			new Sound("res/sounds/click.ogg").play();
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-		
+		setToggled(!isToggled);
 		onClick();
 	}
 	
 	public void setToggled(boolean isToggled) {
 		this.isToggled = isToggled;
+	}
+	
+	public boolean getToggled() {
+		return isToggled;
 	}
 	
 	public void onClick() {

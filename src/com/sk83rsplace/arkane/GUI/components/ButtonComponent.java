@@ -17,21 +17,26 @@ import com.sk83rsplace.arkane.client.Board;
  * @author SK83RJOSH
  */
 public class ButtonComponent extends Component implements IClickable {
-	private String text;
-	private boolean isPressed, isStatic;
-	protected Image buttonImage = Images.defaultImage;
+	private String text = "";
+	private boolean isPressed = false, isStatic = false;
+	private Image buttonImage = Images.defaultImage;
 	
 	public ButtonComponent(String text, int x, int y) {
-		this.text = text;
-		
+		setText(text);		
+		set(x, y);
+		setSize(buttonImage.getWidth() / 3, buttonImage.getHeight());
+	}
+	
+	public ButtonComponent(Image buttonImage, int x, int y) {
+		setStatic(true);
+		setImage(buttonImage);
 		set(x, y);
 		setSize(buttonImage.getWidth() / 3, buttonImage.getHeight());
 	}
 	
 	public ButtonComponent(String text, Image buttonImage, int x, int y) {
-		this.text = text;
-		this.buttonImage= buttonImage;
-		
+		setText(text);
+		setImage(buttonImage);
 		set(x, y);
 		setSize(buttonImage.getWidth() / 3, buttonImage.getHeight());
 	}
@@ -56,10 +61,28 @@ public class ButtonComponent extends Component implements IClickable {
 		g.drawString(text, (1 + offset)  + getX() + (getWidth() / 2) - (container.getDefaultFont().getWidth(text) / 2), (1 + offset) + getY() + (getHeight() / 2) - (container.getDefaultFont().getLineHeight() / 2));		
 	}
 	
-	public ButtonComponent makeStatic() {
-		isStatic = true;
-		
-		return this;
+	public String getText() {
+		return text;
+	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public Image getImage() {
+		return buttonImage;
+	}
+	
+	public void setImage(Image buttonImage) {
+		this.buttonImage = buttonImage;
+	}
+	
+	public boolean getStatic() {
+		return isStatic;
+	}
+	
+	public void setStatic(boolean isStatic) {
+		this.isStatic = isStatic;		
 	}
 	
 	public void update(GameContainer container) {
