@@ -55,7 +55,7 @@ public class MapEditor extends Menu {
 		};
 		descendLayer = new ButtonComponent(Images.vertArrow.getFlippedCopy(false, true), Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8,  27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + Images.hide.getHeight() + 16);
 		panel = new ImageComponent(0, 0, Images.smallPanel);
-		panelToggle = new ButtonComponent(Images.expandDown, (Board.getWidth() / 2) - ((Images.expandDown.getWidth() / 3) / 2), Images.smallPanel.getHeight() - 1) {
+		panelToggle = new ButtonComponent(Images.expandDown, (Board.getWidth() / 2) - ((Images.expandDown.getWidth() / 3) / 2), Images.smallPanel.getHeight() - 3) {
 			public void onClick() {
 				if(getImage() != Images.expandDown)
 					collapsePanel();
@@ -321,7 +321,7 @@ public class MapEditor extends Menu {
 	private void expandPanel() {		
 		panel.setImage(Images.largePanel);
 		panelToggle.setImage(Images.expandUp);
-		panelToggle.set(panelToggle.getX(), Images.largePanel.getHeight() - 1);
+		panelToggle.set(panelToggle.getX(), Images.largePanel.getHeight() - 3);
 		
 		showAlternatePage();
 		showUpgradePage();
@@ -338,7 +338,7 @@ public class MapEditor extends Menu {
 	private void collapsePanel() {
 		panel.setImage(Images.smallPanel);
 		panelToggle.setImage(Images.expandDown);
-		panelToggle.set(panelToggle.getX(), Images.smallPanel.getHeight() - 1);
+		panelToggle.set(panelToggle.getX(), Images.smallPanel.getHeight() - 3);
 
 		addComponent(ascendLayer);
 		addComponent(fieldToggle);

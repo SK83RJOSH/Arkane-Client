@@ -21,7 +21,7 @@ public class Images {
 	public static Image colorHue = deriveImage("res/images/color-hue-picker.png");
 	public static Image colorHandle= deriveImage("res/images/color-handle.png");
 	public static Image cursorHue = deriveImage("res/images/hue-cursor.png");
-	public static Image cursorPicker= deriveImage("res/images/picker-cursor.png");
+	public static Image cursorPicker = deriveImage("res/images/picker-cursor.png");
 	
 	private static Image deriveImage(String res) {
 		try {
