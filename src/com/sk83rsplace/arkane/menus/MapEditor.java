@@ -24,9 +24,9 @@ public class MapEditor extends Menu {
 	private int upgradePage = 1;
 	private int upgradeCount = 0;
 	private boolean panelExpanded = false;
-	private TerrainResource selectedSet = null;
-	private TerrainBase selectedAlternate = null;
-	private TerrainUpgrade selectedUpgrade = null;
+	public TerrainResource selectedSet = null;
+	public TerrainBase selectedAlternate = null;
+	public TerrainUpgrade selectedUpgrade = null;
 	private ButtonComponent previousSetPage;
 	private ButtonComponent nextSetPage;
 	private ButtonComponent previousAlternatePage;

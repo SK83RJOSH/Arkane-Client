@@ -28,6 +28,7 @@ import com.sk83rsplace.arkane.client.interfaces.IWorld;
 import com.sk83rsplace.arkane.client.resources.Resources;
 import com.sk83rsplace.arkane.client.world.Tile;
 import com.sk83rsplace.arkane.menus.LoginMenu;
+import com.sk83rsplace.arkane.menus.MapEditor;
 import com.sk83rsplace.arkane.menus.PauseMenu;
 import com.sk83rsplace.arkane.utils.lists.RenderedList;
 
@@ -77,9 +78,24 @@ public class Board extends BasicGame {
 		if(res.getTerrainDefinition("Editor") != null && showGrid) {			
 			RenderedList<IWorld> tiles = new RenderedList<IWorld>();
 			
+			int mouseX = Mouse.getX();
+			int mouseY = Board.getHeight() - Mouse.getY();
+			int tileWidth = 128;
+			int tileHeight = tileWidth / 4;
+			int tileY = (mouseY + (tileHeight  + tileHeight / 2)) / tileHeight;
+			int tileX = mouseX / tileWidth;
+			
+			if(tileY % 2 == 0) {
+				tileX = (mouseX - (tileWidth / 2)) / tileWidth;
+				tileX += 1;
+			}
+			
+			if(menuStack.peek() instanceof MapEditor)
+				tiles.add(new Tile(((MapEditor) menuStack.peek()).selectedSet.getReferenceName(), ((MapEditor) menuStack.peek()).selectedSet.getBases().indexOf(((MapEditor) menuStack.peek()).selectedAlternate), (((MapEditor) menuStack.peek()).selectedUpgrade != null ? ((MapEditor) menuStack.peek()).selectedAlternate.getValidUpgrades().indexOf(((MapEditor) menuStack.peek()).selectedUpgrade) : -1), tileX, tileY, z + 1));
+			
 			for(int x = 0; x < 6; x++) {
 				for(int y = 0; y < 16; y++) {
-					tiles.add(new Tile("Editor", 0, -1, x, y, z));		
+						tiles.add(new Tile("Editor", 0, -1, x, y, z));
 				}
 			}
 			
