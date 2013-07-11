@@ -70,11 +70,6 @@ public class MapEditor extends Menu {
 				setPage--;
 				
 				showSetPage();
-				
-				if(setPage == 1)
-					removeComponent(this);
-								
-				addComponent(nextSetPage);
 			};	
 		};
 		nextSetPage = new ButtonComponent(Images.hortArrowRight, Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, 8) {
@@ -82,59 +77,34 @@ public class MapEditor extends Menu {
 				setPage++;
 				
 				showSetPage();
-				
-				if(setPage == Math.ceil(setCount / 10f))
-					removeComponent(this);
-								
-				addComponent(previousSetPage);
 			};
 		};
-		previousAlternatePage = new ButtonComponent(Images.hortArrowLeft, 8, 8) {
+		previousAlternatePage = new ButtonComponent(Images.hortArrowLeft, 8, 96) {
 			public void onClick() {
 				alternatePage--;
 				
 				showAlternatePage();
-				
-				if(alternatePage == 1)
-					removeComponent(this);
-								
-				addComponent(nextAlternatePage);
 			};	
 		};
-		nextAlternatePage = new ButtonComponent(Images.hortArrowRight, Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, 8) {
+		nextAlternatePage = new ButtonComponent(Images.hortArrowRight, Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, 96) {
 			public void onClick() {
 				alternatePage++;
 				
 				showAlternatePage();
-				
-				if(alternatePage == Math.ceil(alternateCount / 10f))
-					removeComponent(this);
-								
-				addComponent(previousAlternatePage);
 			};
 		};
-		previousUpgradePage = new ButtonComponent(Images.hortArrowLeft, 8, 8) {
+		previousUpgradePage = new ButtonComponent(Images.hortArrowLeft, 8, 184) {
 			public void onClick() {
 				upgradePage--;
 				
 				showUpgradePage();
-				
-				if(upgradePage == 1)
-					removeComponent(this);
-								
-				addComponent(nextUpgradePage);
 			};	
 		};
-		nextUpgradePage = new ButtonComponent(Images.hortArrowRight, Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, 8) {
+		nextUpgradePage = new ButtonComponent(Images.hortArrowRight, Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, 184) {
 			public void onClick() {
 				upgradePage++;
 				
 				showUpgradePage();
-				
-				if(upgradePage == Math.ceil(alternateCount / 10f))
-					removeComponent(this);
-								
-				addComponent(previousUpgradePage);
 			};
 		};
 		
@@ -173,13 +143,15 @@ public class MapEditor extends Menu {
 	private void showSetPage() {		
 		hideComponentRow(8);
 		
-		if(setCount > 10)
+		if(setCount > 10 && setPage < Math.ceil(setCount / 10f))
 			addComponent(nextSetPage);
+		if(setPage > 1)
+			addComponent(previousSetPage);
 		
 		int offset = 0;
 		for(final TerrainResource resources : Board.res.getTerrainDefinitions().values()) {	
-			if(setCount < 10 * setPage && setCount >= 10 * (setPage - 1 > 0 ? setPage - 1 : 0)) {
-				ShowcaseComponent c = new ShowcaseComponent(resources.getBase(0).getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * offset), 8) {
+			if(offset < 10 * setPage && offset >= 10 * (setPage - 1 > 0 ? setPage - 1 : 0)) {
+				ShowcaseComponent c = new ShowcaseComponent(resources.getBase(0).getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (10 * (setPage - 1 > 0 ? setPage - 1 : 0)))), 8) {
 					public void onClick() {
 						selectSet(resources);
 						
@@ -211,8 +183,9 @@ public class MapEditor extends Menu {
 				}
 		
 				addComponent(c);
-				offset++;
 			}
+			
+			offset++;
 		}
 	}	
 	
@@ -230,13 +203,15 @@ public class MapEditor extends Menu {
 	private void showAlternatePage() {		
 		hideComponentRow(96);
 		
-		if(alternateCount > 10)
+		if(alternateCount > 10 && alternatePage < Math.ceil(alternateCount / 10f))
 			addComponent(nextAlternatePage);
+		if(alternatePage > 1)
+			addComponent(previousAlternatePage);
 		
 		int offset = 0;
-		for(final TerrainBase alternate : selectedSet.getBases()) {	
-			if(upgradeCount < 10 * upgradePage && upgradeCount >= 10 * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)) {
-				ShowcaseComponent c = new ShowcaseComponent(alternate.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * offset), 96) {
+		for(final TerrainBase alternate : selectedSet.getBases()) {
+			if(offset < 10 * alternatePage && offset >= 10 * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)) {				
+				ShowcaseComponent c = new ShowcaseComponent(alternate.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (10 * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)))), 96) {
 					public void onClick() {
 						selectAlternate(alternate);
 						
@@ -268,8 +243,9 @@ public class MapEditor extends Menu {
 				}
 		
 				addComponent(c);
-				offset++;
 			}
+
+			offset++;
 		}
 	}
 	
@@ -280,13 +256,15 @@ public class MapEditor extends Menu {
 	private void showUpgradePage() {		
 		hideComponentRow(184);
 		
-		if(upgradeCount > 10)
+		if(upgradeCount > 10 && upgradePage < Math.ceil(upgradeCount / 10f))
 			addComponent(nextUpgradePage);
+		if(upgradePage > 1)
+			addComponent(previousUpgradePage);
 		
 		int offset = 0;
 		for(final TerrainUpgrade upgrade: selectedAlternate.getValidUpgrades()) {	
-			if(alternateCount < 10 * alternatePage && alternateCount >= 10 * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)) {
-				ShowcaseComponent c = new ShowcaseComponent(upgrade.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * offset), 184) {
+			if(offset < 10 * upgradePage && offset >= 10 * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)) {
+				ShowcaseComponent c = new ShowcaseComponent(upgrade.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (10 * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)))), 184) {
 					public void onClick() {
 						try {
 							new Sound("res/sounds/click.ogg").play();
@@ -313,8 +291,9 @@ public class MapEditor extends Menu {
 					c.setToggled(true);
 		
 				addComponent(c);
-				offset++;
 			}
+			
+			offset++;
 		}
 	}
 	
