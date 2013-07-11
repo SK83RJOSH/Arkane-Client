@@ -43,17 +43,29 @@ public class MapEditor extends Menu {
 	
 	public MapEditor() {
 		setColor(new Color(0f, 0f, 0f, 0f));
+		Board.showGrid = true;
 		
-		ascendLayer = new ButtonComponent(Images.vertArrow, Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8, 27 + Images.hortArrowRight.getHeight());
-		fieldToggle = new ButtonComponent(Images.hide, Board.getWidth() - (Images.vertArrow.getWidth() / 3) + (((Images.vertArrow.getWidth() / 3) / 2) - ((Images.hide.getWidth() / 3) / 2)) - 8, 27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + 8) {
+		ascendLayer = new ButtonComponent(Images.vertArrow, Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8, 27 + Images.hortArrowRight.getHeight()) {
 			public void onClick() {
-				if(getImage() != Images.show)
-					setImage(Images.show);
-				else
-					setImage(Images.hide);
+				Board.z++;
 			}
 		};
-		descendLayer = new ButtonComponent(Images.vertArrow.getFlippedCopy(false, true), Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8,  27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + Images.hide.getHeight() + 16);
+		fieldToggle = new ButtonComponent(Images.hide, Board.getWidth() - (Images.vertArrow.getWidth() / 3) + (((Images.vertArrow.getWidth() / 3) / 2) - ((Images.hide.getWidth() / 3) / 2)) - 8, 27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + 8) {
+			public void onClick() {
+				if(getImage() != Images.show) {
+					Board.showGrid = false;
+					setImage(Images.show);
+				} else {
+					Board.showGrid = true;
+					setImage(Images.hide);
+				}
+			}
+		};
+		descendLayer = new ButtonComponent(Images.vertArrow.getFlippedCopy(false, true), Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8,  27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + Images.hide.getHeight() + 16) {
+			public void onClick() {
+				Board.z--;
+			}
+		};
 		panel = new ImageComponent(0, 0, Images.smallPanel);
 		panelToggle = new ButtonComponent(Images.expandDown, (Board.getWidth() / 2) - ((Images.expandDown.getWidth() / 3) / 2), Images.smallPanel.getHeight() - 3) {
 			public void onClick() {

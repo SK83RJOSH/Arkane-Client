@@ -7,8 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.sk83rsplace.arkane.GUI.Component;
-import com.sk83rsplace.arkane.GUI.IValuedString;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.client.interfaces.IValuedString;
 
 /**
  * 

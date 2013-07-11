@@ -9,6 +9,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import com.sk83rsplace.arkane.GUI.components.TextInputComponent;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.client.interfaces.IRenderable;
 
 /**
  * 

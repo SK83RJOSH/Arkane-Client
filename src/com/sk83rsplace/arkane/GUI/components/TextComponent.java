@@ -8,7 +8,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.Fonts;
-import com.sk83rsplace.arkane.GUI.IValuedString;
+import com.sk83rsplace.arkane.client.interfaces.IValuedString;
 
 /**
  * 

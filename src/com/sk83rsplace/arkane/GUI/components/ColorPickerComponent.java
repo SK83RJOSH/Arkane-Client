@@ -8,9 +8,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import com.sk83rsplace.arkane.GUI.Component;
-import com.sk83rsplace.arkane.GUI.IValuedColor;
 import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.client.interfaces.IValuedColor;
 
 public class ColorPickerComponent extends Component implements IValuedColor {
 	private Color color = Color.red;

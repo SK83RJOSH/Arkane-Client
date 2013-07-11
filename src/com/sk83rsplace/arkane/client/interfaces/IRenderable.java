@@ -1,4 +1,4 @@
-package com.sk83rsplace.arkane.GUI;
+package com.sk83rsplace.arkane.client.interfaces;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;

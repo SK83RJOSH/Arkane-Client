@@ -5,9 +5,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import com.sk83rsplace.arkane.GUI.Component;
-import com.sk83rsplace.arkane.GUI.IClickable;
 import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.client.interfaces.IClickable;
 
 public class ShowcaseComponent extends Component implements IClickable {
 	private Image backgroundImage = Images.tileSelector;

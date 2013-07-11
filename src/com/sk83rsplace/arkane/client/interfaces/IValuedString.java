@@ -1,4 +1,4 @@
-package com.sk83rsplace.arkane.GUI;
+package com.sk83rsplace.arkane.client.interfaces;
 
 /**
  * 

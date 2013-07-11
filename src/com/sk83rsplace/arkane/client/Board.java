@@ -24,9 +24,12 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
 import com.sk83rsplace.arkane.GUI.Menu;
+import com.sk83rsplace.arkane.client.interfaces.IWorld;
 import com.sk83rsplace.arkane.client.resources.Resources;
+import com.sk83rsplace.arkane.client.world.Tile;
 import com.sk83rsplace.arkane.menus.LoginMenu;
 import com.sk83rsplace.arkane.menus.PauseMenu;
+import com.sk83rsplace.arkane.utils.lists.RenderedList;
 
 public class Board extends BasicGame {
 	private static int STARTING_WIDTH = 640;
@@ -67,7 +70,23 @@ public class Board extends BasicGame {
         container.start();
     }
 
+    public static int z = 0;
+    public static boolean showGrid = true;
+    
 	public void render(GameContainer container, Graphics g) throws SlickException {
+		if(res.getTerrainDefinition("Editor") != null && showGrid) {			
+			RenderedList<IWorld> tiles = new RenderedList<IWorld>();
+			
+			for(int x = 0; x < 6; x++) {
+				for(int y = 0; y < 16; y++) {
+					tiles.add(new Tile("Editor", 0, -1, x, y, z));		
+				}
+			}
+			
+			for(IWorld t : tiles)
+				t.render(container, g);
+		}
+		
 		for(Player p : clients) {
 			g.drawImage(new Image("res/steven.png"), p.pos.x, p.pos.y);
 			g.setColor(Color.white);
@@ -96,8 +115,7 @@ public class Board extends BasicGame {
 	int lastY = -1;
 	
 	public void update(GameContainer container, int delta) throws SlickException {
-		//TODO: Implement Delta into movement
-		
+		//TODO: Implement Delta into movement		
 		for(int button = 0; button < 4; button++) {
 			if(Mouse.isButtonDown(button)) {
 		        mouseButtons.setNextState(button, true);
