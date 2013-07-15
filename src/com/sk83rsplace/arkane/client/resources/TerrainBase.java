@@ -15,7 +15,7 @@ public class TerrainBase {
 	
 	public TerrainBase(InputStream sprite, String flags, String upgrades, TerrainResource parent) {
 		try {
-			this.sprite = new Image(sprite, sprite.toString(), false);
+			this.sprite = new Image(sprite, sprite.toString(), false, Image.FILTER_NEAREST);
 			sprite.close();
 		} catch (SlickException | IOException e) {
 			e.printStackTrace();

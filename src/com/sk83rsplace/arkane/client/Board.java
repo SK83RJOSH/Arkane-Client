@@ -36,6 +36,7 @@ public class Board extends BasicGame {
 	private static int STARTING_WIDTH = 640;
 	private static int STARTING_HEIGHT = 512;
 	private static ScalableGame game;
+	private static AppGameContainer container;
 	public static Properties properties;
 	public static String userSettingsLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Settings\\settings.prop";
 	public static File settings;
@@ -58,16 +59,33 @@ public class Board extends BasicGame {
 
     public static void main(String[] args) throws Exception {
         game = new ScalableGame(new Board("Aeternal Prototype"), STARTING_WIDTH, STARTING_HEIGHT) {
-        	protected void renderOverlay(GameContainer container, Graphics g) {        		
+        	protected void renderOverlay(GameContainer container, Graphics g) {             		
         		if(!menuStack.isEmpty())
         			menuStack.peek().render(container, g);
         	}
+        	
+        	public void recalculateScale() throws SlickException { //TODO: Ensure This isn't bugged.
+        		super.recalculateScale();
+             		
+        		if(!menuStack.isEmpty()) {
+        			try {
+            			Class<? extends Menu> c = menuStack.peek().getClass();
+						Menu m = c.newInstance();
+						menuStack.pop();
+						
+						menuStack.add(m);
+					} catch (InstantiationException | IllegalAccessException e) {
+						e.printStackTrace();
+					}
+        		}
+        	}
         };
-                
-        AppGameContainer container = new AppGameContainer(game);
-        container.setMultiSample(0);
+        
+        container = new AppGameContainer(game);
+        container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
         container.setVSync(true);
         container.setTargetFrameRate(60);
+        container.setResizable(false); //Implemented a start to resizability!
         container.start();
     }
 
@@ -204,11 +222,11 @@ public class Board extends BasicGame {
 	}
 
 	public static int getWidth() {
-		return (int) (STARTING_WIDTH * game.getScaleX());
+		return container.getWidth();
 	}
 	
 	public static int getHeight() {
-		return (int) (STARTING_HEIGHT * game.getScaleY());
+		return container.getHeight();
 	}
 	
 	public static void startGame() {
