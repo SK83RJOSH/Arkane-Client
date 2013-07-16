@@ -19,6 +19,8 @@ public class LabelComponent extends TextComponent {
 	}
 	
 	public void render(GameContainer container, Graphics g) {		
+		set(parent.getX() - getWidth(), parent.getY() + (parent.getHeight() / 2) - (getHeight() / 2));
+		
 		g.setColor(Color.black);
 		g.drawString(getValue(), getX() + 2, getY() + 2);
 		
@@ -28,7 +30,6 @@ public class LabelComponent extends TextComponent {
 
 	public void onInitialization(GameContainer container) {
 		setSize(container.getDefaultFont().getWidth(getValue()), container.getDefaultFont().getHeight(getValue()));
-		set(parent.getX() - getWidth(), parent.getY() + (parent.getHeight() / 2) - (getHeight() / 2));
 	}
 	
 	public void setValue(String content) {

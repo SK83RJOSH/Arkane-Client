@@ -64,20 +64,11 @@ public class Board extends BasicGame {
         			menuStack.peek().render(container, g);
         	}
         	
-        	public void recalculateScale() throws SlickException { //TODO: Ensure This isn't bugged.
+        	public void recalculateScale() throws SlickException {
         		super.recalculateScale();
-             		
-        		if(!menuStack.isEmpty()) {
-        			try {
-            			Class<? extends Menu> c = menuStack.peek().getClass();
-						Menu m = c.newInstance();
-						menuStack.pop();
-						
-						menuStack.add(m);
-					} catch (InstantiationException | IllegalAccessException e) {
-						e.printStackTrace();
-					}
-        		}
+             	
+        		for(Menu m : menuStack)
+        			m.resize();
         	}
         };
         
@@ -85,7 +76,7 @@ public class Board extends BasicGame {
         container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
         container.setVSync(true);
         container.setTargetFrameRate(60);
-        container.setResizable(false); //Implemented a start to resizability!
+        container.setResizable(true);
         container.start();
     }
 
@@ -93,6 +84,8 @@ public class Board extends BasicGame {
     public static boolean showGrid = true;
     
 	public void render(GameContainer container, Graphics g) throws SlickException {
+		g.scale(1f / Board.game.getScaleX(), 1f / Board.game.getScaleY());
+		
 		if(res.getTerrainDefinition("Editor") != null && showGrid) {			
 			RenderedList<IWorld> tiles = new RenderedList<IWorld>();
 			
@@ -160,6 +153,10 @@ public class Board extends BasicGame {
 
 		if(timeout > 0)
 			timeout--;
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_I)) {
+	        Board.container.setDisplayMode(1280, 720, false);
+		}
 		
 		if(Client.connected) {
 			tick++;

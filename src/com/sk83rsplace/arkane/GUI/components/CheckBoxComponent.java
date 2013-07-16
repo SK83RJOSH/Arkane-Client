@@ -28,24 +28,34 @@ public class CheckBoxComponent extends Component implements IValuedBoolean {
 	public void render(GameContainer container, Graphics g) {
 		g.setFont(container.getDefaultFont());
 		
+		g.setColor(Color.white);
+
+		if(!isRadial) {
+			g.fill(new Rectangle(getX() - 1, getY() - 1, getWidth() + 2, 1));
+			g.fill(new Rectangle(getX() - 1, getY() - 1, 1, getHeight() + 2));
+			g.fill(new Rectangle(getX() + getWidth(), getY() - 1, 1, getHeight() + 2));
+			g.fill(new Rectangle(getX() - 1, getY() + getHeight(), getWidth() + 2, 1));
+		}
+		
+		
 		g.setColor((isActive() ? new Color(0f, 0f, 0f, 0.70f) : new Color(0f, 0f, 0f, 0.65f)));
+		
 		if(isRadial)
 			g.fill(new Circle(getX() + (getWidth() / 2), getY()  + (getHeight() / 2), getWidth() / 2, getHeight() / 2));
 		else
 			g.fill(new Rectangle(getX(), getY(), getWidth(), getHeight()));
 		
+		
 		g.setColor(Color.white);
-
-		if(isRadial)
-			g.draw(new Circle(getX() + (getWidth() / 2), getY() + (getHeight() / 2), getWidth() / 2, getHeight() / 2));
-		else
-			g.draw(new Rectangle(getX() - 1, getY(), getWidth() + 1, getHeight() + 1));
-				
+		
 		if(isChecked)
 			if(isRadial)
 				g.fill(new Circle(getX() + (getWidth() / 2), getY() + (getHeight() / 2), ((getWidth() - 10) / 2), ((getHeight() - 10) / 2)));
 			else
 				g.drawString("X", getX() + 6, getY() + 6);
+	
+		if(isRadial)
+			g.draw(new Circle(getX() + (getWidth() / 2), getY() + (getHeight() / 2), getWidth() / 2, getHeight() / 2));
 	}
 		
 	public void update(GameContainer container) {

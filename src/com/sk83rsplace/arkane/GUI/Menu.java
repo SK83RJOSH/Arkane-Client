@@ -36,6 +36,10 @@ public abstract class Menu implements IRenderable  {
 			nextTimeout--;
 	}
 	
+	public void resize() {
+		//TODO: Overridden
+	}
+	
 	public void addComponent(Component c) {
 		c.setParent(this);
 		components.add(c);

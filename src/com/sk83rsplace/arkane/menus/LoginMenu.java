@@ -19,31 +19,44 @@ import com.sk83rsplace.arkane.client.Board;
 import com.sk83rsplace.arkane.utils.HTTP;
 
 public class LoginMenu extends Menu {
+	private TextComponent titleText;
 	private TextInputComponent usernameField;
 	private TextInputComponent passwordField;
+	private ButtonComponent loginButton;
 	private TextComponent errorMessage;
 	private CheckBoxComponent rememberMe;
 	
-	public LoginMenu() {		
-		usernameField = new TextInputComponent("Username", (Board.properties.getProperty("username") == null ? "" : Board.properties.getProperty("username")), -1, 200);
-		passwordField = new TextInputComponent("Password", (Board.properties.getProperty("password") == null ? "" : Board.properties.getProperty("password")), -1, 250, true);
-		errorMessage = new TextComponent("", Color.yellow, -1, 360);
-		rememberMe = new CheckBoxComponent(((Board.properties.getProperty("remember_me") == null ? false : Board.properties.getProperty("remember_me").equals("1")) ? true : false), false, 370, 392) {
+	public LoginMenu() {
+		titleText = new TextComponent("Please Log-In!", Color.white, Fonts.mediumPoint, -1, (Board.getHeight() / 2) - 120);
+		usernameField = new TextInputComponent("Username", (Board.properties.getProperty("username") == null ? "" : Board.properties.getProperty("username")), -1, (Board.getHeight() / 2) - 70);
+		passwordField = new TextInputComponent("Password", (Board.properties.getProperty("password") == null ? "" : Board.properties.getProperty("password")), -1, (Board.getHeight() / 2) - 20, true);
+		loginButton = new ButtonComponent("Login", -1, (Board.getHeight() / 2) + 30) {
+			public void onClick() {
+				checkLogin();
+			}
+		};
+		errorMessage = new TextComponent("", Color.yellow, -1, (Board.getHeight() / 2) + 90);
+		rememberMe = new CheckBoxComponent(((Board.properties.getProperty("remember_me") == null ? false : Board.properties.getProperty("remember_me").equals("1")) ? true : false), false, passwordField.getX() + 185, (Board.getHeight() / 2) + 122) {
 			public void onInitialization(GameContainer container) {
 				addComponent(new LabelComponent("Remember Me", this));
 			}
 		};
 		
-		addComponent(new TextComponent("Please Log-In!", Color.white, Fonts.mediumPoint, -1, 150));
+		addComponent(titleText);
 		addComponent(usernameField);
 		addComponent(passwordField);
-		addComponent(new ButtonComponent("Login", -1, 300) {
-			public void onClick() {
-				checkLogin();
-			}
-		});
+		addComponent(loginButton);
 		addComponent(errorMessage);
 		addComponent(rememberMe);		
+	}
+	
+	public void resize() {
+		titleText.set(-1, (Board.getHeight() / 2) - 120);
+		usernameField.set(-1, (Board.getHeight() / 2) - 70);
+		passwordField.set(-1, (Board.getHeight() / 2) - 20);
+		loginButton.set(-1, (Board.getHeight() / 2) + 30);
+		errorMessage.set(-1, (Board.getHeight() / 2) + 90);
+		rememberMe.set(passwordField.getX() + 185, (Board.getHeight() / 2) + 122);
 	}
 	
 	private void checkLogin() {		

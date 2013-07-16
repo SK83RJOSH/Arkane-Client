@@ -37,15 +37,15 @@ public abstract class Component implements IRenderable {
 		}
 	}
 	
-	public float getX() {
-		return (pos.x == -1 ? (Board.getWidth() / 2) - (getWidth() / 2) : pos.x);
+	public int getX() {
+		return (int) (pos.x == -1 ? (Board.getWidth() / 2) - (getWidth() / 2) : pos.x);
 	}
 	
-	public float getY() {
-		return pos.y;
+	public int getY() {
+		return (int) pos.y;
 	}
 	
-	public void set(float x, float y) {
+	public void set(int x, int y) {
 		pos.setX(x);
 		pos.setY(y);
 	}

@@ -24,7 +24,7 @@ public class TextInputComponent extends Component implements IValuedString {
 		this.placeholder = placeholder;
 		this.content = content;
 		set(x, y);
-		setSize(257, 22);
+		setSize(258, 22);
 	}
 	
 	public TextInputComponent(String placeholder, String content, int x, int y, boolean password) {
@@ -32,7 +32,7 @@ public class TextInputComponent extends Component implements IValuedString {
 		this.content = content;
 		this.password = password;
 		set(x, y);
-		setSize(257, 22);
+		setSize(258, 22);
 	}
 	
 	public void render(GameContainer container, Graphics g) {
@@ -40,14 +40,22 @@ public class TextInputComponent extends Component implements IValuedString {
 		
 		for(int index = 0; index < content.length(); index++)
 			maskedContent += "*";
-			
-		
-		g.setFont(container.getDefaultFont());
-		
+
 		g.setColor(Color.white);
-		g.draw(new Rectangle(getX() - 1, getY(), getWidth() + 1, getHeight() + 1));
-		if(isSelected)
-			g.draw(new Rectangle(getX() - 2, getY() - 1, getWidth() + 3, getHeight() + 3));
+				
+		if(isSelected) {
+			g.fill(new Rectangle(getX() - 2, getY() - 2, 2, getHeight() + 4)); //Left
+			g.fill(new Rectangle(getX() + getWidth(), getY() - 2, 2, getHeight() + 4)); //Right	
+			g.fill(new Rectangle(getX() - 2, getY() - 2, getWidth() + 4, 2)); //Top
+			g.fill(new Rectangle(getX() - 2, getY() + getHeight(), getWidth() + 4, 2)); //Bottom
+		} else {
+			g.fill(new Rectangle(getX() - 1, getY() - 1, 1, getHeight() + 2)); //Left
+			g.fill(new Rectangle(getX() + getWidth(), getY() - 1, 1, getHeight() + 2)); //Right
+			g.fill(new Rectangle(getX() - 1, getY() - 1, getWidth() + 2, 1)); //Top
+			g.fill(new Rectangle(getX() - 1, getY() + getHeight(), getWidth() + 2, 1)); //Bottom
+		}
+			
+		g.setFont(container.getDefaultFont());
 		
 		g.setColor((isActive() && !isSelected ? new Color(0f, 0f, 0f, 0.70f) : (isSelected ? new Color(0f, 0f, 0f, 0.75f) : new Color(0f, 0f, 0f, 0.65f))));
 		g.fill(new Rectangle(getX(), getY(), getWidth(), getHeight()));
