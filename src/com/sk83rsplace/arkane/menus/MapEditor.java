@@ -8,7 +8,7 @@ import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
-import com.sk83rsplace.arkane.GUI.components.ImageComponent;
+import com.sk83rsplace.arkane.GUI.components.PanelComponent;
 import com.sk83rsplace.arkane.GUI.components.ShowcaseComponent;
 import com.sk83rsplace.arkane.GUI.components.TextComponent;
 import com.sk83rsplace.arkane.client.Board;
@@ -27,19 +27,9 @@ public class MapEditor extends Menu {
 	public TerrainResource selectedSet = null;
 	public TerrainBase selectedAlternate = null;
 	public TerrainUpgrade selectedUpgrade = null;
-	private ButtonComponent previousSetPage;
-	private ButtonComponent nextSetPage;
-	private ButtonComponent previousAlternatePage;
-	private ButtonComponent nextAlternatePage;
-	private ButtonComponent previousUpgradePage;
-	private ButtonComponent nextUpgradePage;
-	private ButtonComponent ascendLayer;
-	private ButtonComponent fieldToggle;
-	private ButtonComponent descendLayer;
-	private ImageComponent panel;
-	private ButtonComponent panelToggle;
-	private TextComponent alternatesText;
-	private TextComponent upgradesText;
+	private ButtonComponent previousSetPage, nextSetPage, previousAlternatePage, nextAlternatePage, previousUpgradePage, nextUpgradePage, ascendLayer, fieldToggle, descendLayer, panelToggle, exitButton, loadButton, saveButton;
+	private PanelComponent panel;
+	private TextComponent alternatesText, upgradesText;
 	
 	public MapEditor() {
 		setColor(new Color(0f, 0f, 0f, 0f));
@@ -66,8 +56,8 @@ public class MapEditor extends Menu {
 				Board.z--;
 			}
 		};
-		panel = new ImageComponent(0, 0, Images.smallPanel);
-		panelToggle = new ButtonComponent(Images.expandDown, (Board.getWidth() / 2) - ((Images.expandDown.getWidth() / 3) / 2), Images.smallPanel.getHeight() - 3) {
+		panel = new PanelComponent(0, 0, -1, 1, Images.smallPanel);
+		panelToggle = new ButtonComponent(Images.expandDown, -1, Images.smallPanel.getHeight() - 3) {
 			public void onClick() {
 				if(getImage() != Images.expandDown)
 					collapsePanel();
@@ -119,6 +109,14 @@ public class MapEditor extends Menu {
 				showUpgradePage();
 			};
 		};
+		exitButton = new ButtonComponent("Exit", Images.miniButton, 8, Board.getHeight() - Images.miniButton.getHeight() - 8) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new DeveloperMenu());
+			}
+		};
+		loadButton = new ButtonComponent("Load", Images.miniButton, Board.getWidth() - ((Images.miniButton.getWidth() / 3) * 2) - 16, Board.getHeight() - Images.miniButton.getHeight() - 8);
+		saveButton = new ButtonComponent("Save", Images.miniButton, Board.getWidth() - (Images.miniButton.getWidth() / 3) - 8, Board.getHeight() - Images.miniButton.getHeight() - 8);
 		
 		addComponent(panel);
 		addComponent(panelToggle);
@@ -129,15 +127,19 @@ public class MapEditor extends Menu {
 		addComponent(fieldToggle);
 		addComponent(descendLayer);
 	
-		addComponent(new ButtonComponent("Exit", Images.miniButton, 8, Board.getHeight() - Images.miniButton.getHeight() - 8) {
-			public void onClick() {
-				Board.menuStack.pop();
-				Board.menuStack.add(new DeveloperMenu());
-			}
-		});
-		
-		addComponent(new ButtonComponent("Load", Images.miniButton, Board.getWidth() - ((Images.miniButton.getWidth() / 3) * 2) - 16, Board.getHeight() - Images.miniButton.getHeight() - 8));
-		addComponent(new ButtonComponent("Save", Images.miniButton, Board.getWidth() - (Images.miniButton.getWidth() / 3) - 8, Board.getHeight() - Images.miniButton.getHeight() - 8));
+		addComponent(exitButton);
+		addComponent(loadButton);
+		addComponent(saveButton);
+	}
+	
+	public void resize() {
+		ascendLayer.set(Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8, 27 + Images.hortArrowRight.getHeight());
+		fieldToggle.set(Board.getWidth() - (Images.vertArrow.getWidth() / 3) + (((Images.vertArrow.getWidth() / 3) / 2) - ((Images.hide.getWidth() / 3) / 2)) - 8, 27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + 8);
+		descendLayer.set(Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8,  27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + Images.hide.getHeight() + 16);
+				
+		exitButton.set(8, Board.getHeight() - Images.miniButton.getHeight() - 8);
+		loadButton.set(Board.getWidth() - ((Images.miniButton.getWidth() / 3) * 2) - 16, Board.getHeight() - Images.miniButton.getHeight() - 8);
+		saveButton.set(Board.getWidth() - (Images.miniButton.getWidth() / 3) - 8, Board.getHeight() - Images.miniButton.getHeight() - 8);
 	}
 	
 	private void selectSet(TerrainResource selectedSet) {
@@ -312,7 +314,7 @@ public class MapEditor extends Menu {
 	private void expandPanel() {		
 		panel.setImage(Images.largePanel);
 		panelToggle.setImage(Images.expandUp);
-		panelToggle.set(panelToggle.getX(), Images.largePanel.getHeight() - 3);
+		panelToggle.set(-1, Images.largePanel.getHeight() - 3);
 		
 		showAlternatePage();
 		showUpgradePage();
@@ -329,7 +331,7 @@ public class MapEditor extends Menu {
 	private void collapsePanel() {
 		panel.setImage(Images.smallPanel);
 		panelToggle.setImage(Images.expandDown);
-		panelToggle.set(panelToggle.getX(), Images.smallPanel.getHeight() - 3);
+		panelToggle.set(-1, Images.smallPanel.getHeight() - 3);
 
 		addComponent(ascendLayer);
 		addComponent(fieldToggle);

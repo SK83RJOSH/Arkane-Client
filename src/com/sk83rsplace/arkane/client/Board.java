@@ -66,6 +66,8 @@ public class Board extends BasicGame {
         	
         	public void recalculateScale() throws SlickException {
         		super.recalculateScale();
+        		
+        		container.getGraphics().clearClip();
              	
         		for(Menu m : menuStack)
         			m.resize();
@@ -74,6 +76,7 @@ public class Board extends BasicGame {
         
         container = new AppGameContainer(game);
         container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
+        container.setAlwaysRender(true);
         container.setVSync(true);
         container.setTargetFrameRate(60);
         container.setResizable(true);
@@ -104,8 +107,8 @@ public class Board extends BasicGame {
 			if(menuStack.peek() instanceof MapEditor)
 				tiles.add(new Tile(((MapEditor) menuStack.peek()).selectedSet.getReferenceName(), ((MapEditor) menuStack.peek()).selectedSet.getBases().indexOf(((MapEditor) menuStack.peek()).selectedAlternate), (((MapEditor) menuStack.peek()).selectedUpgrade != null ? ((MapEditor) menuStack.peek()).selectedAlternate.getValidUpgrades().indexOf(((MapEditor) menuStack.peek()).selectedUpgrade) : -1), tileX, tileY, z + 1));
 			
-			for(int x = 0; x < 6; x++) {
-				for(int y = 0; y < 16; y++) {
+			for(int x = 0; x < (int) Math.ceil(Board.getWidth() / 128f) + 1; x++) {
+				for(int y = 0; y < (int) Math.ceil(Board.getHeight() / 32f) + 1; y++) {
 						tiles.add(new Tile("Editor", 0, -1, x, y, z));
 				}
 			}
@@ -140,6 +143,7 @@ public class Board extends BasicGame {
 	int tick = 0;
 	int lastX = -1;
 	int lastY = -1;
+	boolean wasDown = false;
 	
 	public void update(GameContainer container, int delta) throws SlickException {
 		//TODO: Implement Delta into movement		
@@ -154,8 +158,18 @@ public class Board extends BasicGame {
 		if(timeout > 0)
 			timeout--;
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_I)) {
-	        Board.container.setDisplayMode(1280, 720, false);
+		if(Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+			if(!wasDown) {
+				if(!container.isFullscreen()) {
+					Board.container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
+				} else {
+					Board.container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
+				}
+			}
+			
+			wasDown = true;
+		} else if(!Keyboard.isKeyDown(Keyboard.KEY_F11)) {
+			wasDown = false;
 		}
 		
 		if(Client.connected) {

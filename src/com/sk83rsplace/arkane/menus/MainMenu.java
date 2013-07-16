@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 
 import com.sk83rsplace.arkane.GUI.Fonts;
+import com.sk83rsplace.arkane.GUI.Images;
 import com.sk83rsplace.arkane.GUI.Menu;
 import com.sk83rsplace.arkane.GUI.components.ButtonComponent;
 import com.sk83rsplace.arkane.GUI.components.CheckBoxComponent;
@@ -21,10 +22,31 @@ import com.sk83rsplace.arkane.utils.HTTP;
 
 public class MainMenu extends Menu {
 	private TextComponent errorMessage;
+	private ButtonComponent createButton;
+	private ButtonComponent debugButton;
+	private ButtonComponent continueButton;
 	private ArrayList<CheckBoxComponent> characterComponents = new ArrayList<CheckBoxComponent>();
 	
 	public MainMenu() {
 		errorMessage = new TextComponent("", Color.yellow, -1, 392);
+		createButton = new ButtonComponent("Create New", (Board.getWidth() - ((Images.defaultImage.getWidth() / 3) * 2)) / 4, Board.getHeight() - 15 - 50) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new CreationMenu());
+			}
+		};
+		debugButton = new ButtonComponent("Developer Tools", -1, Board.getHeight() - 15 - 110) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new DeveloperMenu());
+			}
+		};
+		continueButton = new ButtonComponent("Continue", Board.getWidth() - ((Board.getWidth() - ((Images.defaultImage.getWidth() / 3) * 2)) / 4) - (Images.defaultImage.getWidth() / 3), Board.getHeight() - 15 - 50) {
+			public void onClick() {
+				Board.menuStack.pop();
+				Board.menuStack.add(new ServerListMenu());
+			}
+		};
 		
 		addComponent(new TextComponent("Welcome " + Board.username + ",", Color.white, Fonts.mediumPoint, -1, 50));
 		addComponent(new TextComponent("Select your Character:", Color.white, Fonts.mediumPoint, -1, 72));
@@ -32,29 +54,21 @@ public class MainMenu extends Menu {
 		getCharacters();
 
 		if(Board.debugging) {
-			addComponent(new ButtonComponent("Developer Tools", -1, Board.getHeight() - 15 - 110) {
-				public void onClick() {
-					Board.menuStack.pop();
-					Board.menuStack.add(new DeveloperMenu());
-				}
-			});
+			addComponent(debugButton);
 		}
 		
-		addComponent(new ButtonComponent("Create New", 15, Board.getHeight() - 15 - 50) {
-			public void onClick() {
-				Board.menuStack.pop();
-				Board.menuStack.add(new CreationMenu());
-			}
-		});
-		
-		addComponent(new ButtonComponent("Continue", Board.getWidth() - 15 - 258, Board.getHeight() - 15 - 50) {
-			public void onClick() {
-				Board.menuStack.pop();
-				Board.menuStack.add(new ServerListMenu());
-			}
-		});
-		
+		addComponent(createButton);
+		addComponent(continueButton);
 		addComponent(errorMessage);
+	}
+	
+	public void resize() {
+		createButton.set((Board.getWidth() - ((Images.defaultImage.getWidth() / 3) * 2)) / 4, Board.getHeight() - 15 - 50);
+		debugButton.set(-1, Board.getHeight() - 15 - 110);
+		continueButton.set(Board.getWidth() - ((Board.getWidth() - ((Images.defaultImage.getWidth() / 3) * 2)) / 4) - (Images.defaultImage.getWidth() / 3), Board.getHeight() - 15 - 50);
+		
+		for(CheckBoxComponent c : characterComponents)
+			c.set((Board.getWidth() / 2) + 40, c.getY());
 	}
 	
 	private void getCharacters() {
@@ -71,7 +85,7 @@ public class MainMenu extends Menu {
 			
 			for(int index = 0; index < characters.length(); index++) {
 				final JSONObject character = characters.getJSONObject(index);
-				CheckBoxComponent component = new CheckBoxComponent((index == 0 ? true : false), true, 360, 98 + (index * 32)) {
+				CheckBoxComponent component = new CheckBoxComponent((index == 0 ? true : false), true, (Board.getWidth() / 2) + 40, 98 + (index * 32)) {
 					public void onInitialization(GameContainer container) {
 						try {
 							addComponent(new LabelComponent(character.getString("name"), this));
