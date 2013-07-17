@@ -42,7 +42,7 @@ public abstract class Component implements IRenderable {
 	}
 	
 	public int getY() {
-		return (int) pos.y;
+		return (int) (pos.y == -1 ? (Board.getHeight() / 2) - (getHeight() / 2) : pos.y);
 	}
 	
 	public void set(int x, int y) {
