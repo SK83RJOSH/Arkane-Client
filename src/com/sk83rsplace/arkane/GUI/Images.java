@@ -17,6 +17,7 @@ public class Images {
 	public static Image smallPanel = deriveImage("res/images/panel.png");
 	public static Image largePanel = deriveImage("res/images/panel-large.png");
 	public static Image splashScreen = deriveImage("res/images/splash.png");
+	public static Image splashLauncher = deriveImage("res/images/splash_launcher.png");
 	public static Image colorOverlay = deriveImage("res/images/color-overlay.png");
 	public static Image colorHue = deriveImage("res/images/color-hue-picker.png");
 	public static Image colorHandle= deriveImage("res/images/color-handle.png");

@@ -21,6 +21,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.imageout.ImageOut;
 import org.newdawn.slick.util.ResourceLoader;
 
 import com.sk83rsplace.arkane.GUI.Menu;
@@ -143,7 +144,7 @@ public class Board extends BasicGame {
 	int tick = 0;
 	int lastX = -1;
 	int lastY = -1;
-	boolean wasDown = false;
+	boolean wasDownF11 = false, wasDownF2 = false;
 	
 	public void update(GameContainer container, int delta) throws SlickException {
 		//TODO: Implement Delta into movement		
@@ -159,7 +160,7 @@ public class Board extends BasicGame {
 			timeout--;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_F11)) {
-			if(!wasDown) {
+			if(!wasDownF11) {
 				if(!container.isFullscreen()) {
 					Board.container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
 				} else {
@@ -167,9 +168,42 @@ public class Board extends BasicGame {
 				}
 			}
 			
-			wasDown = true;
+			wasDownF11 = true;
 		} else if(!Keyboard.isKeyDown(Keyboard.KEY_F11)) {
-			wasDown = false;
+			wasDownF11 = false;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_F2)) {
+			if(!wasDownF2) {				
+				try { //Thanks to dime; http://slick.javaunlimited.net/viewtopic.php?t=2497
+					File FileSSDir = new File(System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\");
+					if(!FileSSDir.exists()) {
+						FileSSDir.mkdirs();
+					}
+					
+					int number = 0;
+					String screenShotFileName = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\" + "Screenshot_" + number + ".png";
+					File screenShot = new File(screenShotFileName);
+					
+					while(screenShot.exists()) {
+						number++;
+						screenShotFileName = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\" + "Screenshot_" + number + ".png";
+						screenShot = new File(screenShotFileName);
+					}
+					
+					Image target = new Image(container.getWidth(), container.getHeight());
+					
+					Graphics g = container.getGraphics();
+					g.copyArea(target, 0, 0);
+					ImageOut.write(target, screenShotFileName) ;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			wasDownF2 = true;
+		} else if(!Keyboard.isKeyDown(Keyboard.KEY_F2)) {
+			wasDownF2 = false;
 		}
 		
 		if(Client.connected) {
