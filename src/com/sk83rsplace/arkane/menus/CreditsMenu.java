@@ -64,7 +64,7 @@ public class CreditsMenu extends Menu {
 		
 		if(creditsOffsetY < creditsHeight) {
 			for(Component c : components) {
-				c.set(c.getX(), c.getY() - 1);
+				c.set(c.getX(), (c.getY() - 1 != -1 ? c.getY() - 1 : c.getY() - 2));
 			}
 			
 			creditsOffsetY++;
