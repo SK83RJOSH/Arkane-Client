@@ -9,13 +9,14 @@ import org.newdawn.slick.geom.Rectangle;
 
 import com.sk83rsplace.arkane.GUI.components.TextInputComponent;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.client.interfaces.IKeyListener;
 import com.sk83rsplace.arkane.client.interfaces.IRenderable;
 
 /**
  * 
  * @author SK83RJOSH
  */
-public abstract class Menu implements IRenderable  {
+public abstract class Menu implements IKeyListener, IRenderable {
 	protected CopyOnWriteArrayList<Component> components = new CopyOnWriteArrayList<Component>();
 	private Color color = new Color(255, 0, 255);
 	private int nextTimeout = 0;
@@ -38,6 +39,22 @@ public abstract class Menu implements IRenderable  {
 	
 	public void resize() {
 		//TODO: Overridden
+	}
+	
+	public void keyPressed(int key, char c) {
+		for(Component comp : components) {
+			if(comp instanceof IKeyListener) {
+				if(comp instanceof TextInputComponent) {
+					TextInputComponent input = (TextInputComponent) comp;
+					
+					if(input.isSelected()) {
+						input.keyPressed(key, c);
+					}
+				} else {
+					((IKeyListener) comp).keyPressed(key, c);
+				}
+			}
+		}
 	}
 	
 	public void addComponent(Component c) {
@@ -69,7 +86,7 @@ public abstract class Menu implements IRenderable  {
 				Component c = components.get(index);
 							
 				if(c instanceof TextInputComponent) {
-					if(((TextInputComponent) c).getSelected() && !foundCurrent) {
+					if(((TextInputComponent) c).isSelected() && !foundCurrent) {
 						foundCurrent = true;
 						((TextInputComponent) c).setSelected(false);
 					} else if(foundCurrent && !selected) {

@@ -1,20 +1,21 @@
 package com.sk83rsplace.arkane.GUI.components;
 
-import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.client.Board;
+import com.sk83rsplace.arkane.client.interfaces.IKeyListener;
 import com.sk83rsplace.arkane.client.interfaces.IValuedString;
 
 /**
  * 
  * @author SK83RJOSH
  */
-public class TextInputComponent extends Component implements IValuedString {
+public class TextInputComponent extends Component implements IValuedString, IKeyListener {
 	private String placeholder = "", content = "";
 	private boolean isSelected = false;
 	private boolean password = false;
@@ -70,9 +71,7 @@ public class TextInputComponent extends Component implements IValuedString {
 			}
 		g.setClip(0, 0, container.getWidth(), container.getHeight());
 	}
-	
-	char lastchar;
-	
+		
 	public void update(GameContainer container) {
 		super.update(container);
 		
@@ -83,32 +82,6 @@ public class TextInputComponent extends Component implements IValuedString {
 		
 		tick++;
 		tick = tick % 60;
-		
-		if(Keyboard.getEventKeyState() && lastchar != Keyboard.getEventCharacter() && isSelected || Keyboard.isRepeatEvent() && isSelected) {
-			if(Keyboard.getEventCharacter() != 0 && Keyboard.getEventKey() != Keyboard.KEY_BACK && Keyboard.getEventKey() != Keyboard.KEY_RETURN && Keyboard.getEventKey() != Keyboard.KEY_TAB) {
-				content += (Keyboard.getEventCharacter());
-				onValueChange();
-			} else {
-				switch(Keyboard.getEventKey()) {
-					case Keyboard.KEY_BACK:
-						if(content.length() > 0) {
-							content = content.substring(0, content.length() - 1);	
-							onValueChange();
-						}
-						break;
-					case Keyboard.KEY_RETURN:
-						isSelected = false;
-						break;
-					case Keyboard.KEY_TAB:
-						getParent().selectNext();
-						break;
-				}	
-			}
-
-			lastchar = Keyboard.getEventCharacter();
-		} else if(!Keyboard.getEventKeyState()) {
-			lastchar = 9999;
-		}
 	}
 	
 	public String getValue() {
@@ -121,10 +94,32 @@ public class TextInputComponent extends Component implements IValuedString {
 	}
 	
 	public void onValueChange() {
-		System.out.println("Value changed, defaulted action.");
+		//To be overridden
 	}
 	
-	public boolean getSelected() {
+	public void keyPressed(int key, char c) {
+		if(c > 37 && c < 128) { //Character isn't Control Character and is ASCII
+			content += c;
+			onValueChange();
+		} else {
+			switch(key) {
+				case Input.KEY_BACK:
+					if(content.length() > 0) {
+						content = content.substring(0, content.length() - 1);	
+						onValueChange();
+					}
+					break;
+				case Input.KEY_RETURN:
+					isSelected = false;
+					break;
+				case Input.KEY_TAB:
+					getParent().selectNext();
+					break;
+			}	
+		}
+	}
+	
+	public boolean isSelected() {
 		return isSelected;
 	}
 

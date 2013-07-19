@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -18,6 +21,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
@@ -45,6 +49,7 @@ public class Board extends BasicGame {
 	public static CopyOnWriteArrayList<Player> clients = new CopyOnWriteArrayList<Player>();
 	public static Stack<Menu> menuStack = new Stack<Menu>();
 	public static MouseButtons mouseButtons = new MouseButtons();
+	public static ArrayList<Character> invalidKeys = new ArrayList<Character>(); 
 	public static Resources res;
 	public static String username = "Bob";
 	public static int userID = 0;
@@ -144,7 +149,6 @@ public class Board extends BasicGame {
 	int tick = 0;
 	int lastX = -1;
 	int lastY = -1;
-	boolean wasDownF11 = false, wasDownF2 = false;
 	
 	public void update(GameContainer container, int delta) throws SlickException {
 		//TODO: Implement Delta into movement		
@@ -158,53 +162,6 @@ public class Board extends BasicGame {
 
 		if(timeout > 0)
 			timeout--;
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F11)) {
-			if(!wasDownF11) {
-				if(!container.isFullscreen()) {
-					Board.container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
-				} else {
-					Board.container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
-				}
-			}
-			
-			wasDownF11 = true;
-		} else if(!Keyboard.isKeyDown(Keyboard.KEY_F11)) {
-			wasDownF11 = false;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_F2)) {
-			if(!wasDownF2) {				
-				try { //Thanks to dime; http://slick.javaunlimited.net/viewtopic.php?t=2497
-					File FileSSDir = new File(System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\");
-					if(!FileSSDir.exists()) {
-						FileSSDir.mkdirs();
-					}
-					
-					int number = 0;
-					String screenShotFileName = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\" + "Screenshot_" + number + ".png";
-					File screenShot = new File(screenShotFileName);
-					
-					while(screenShot.exists()) {
-						number++;
-						screenShotFileName = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\" + "Screenshot_" + number + ".png";
-						screenShot = new File(screenShotFileName);
-					}
-					
-					Image target = new Image(container.getWidth(), container.getHeight());
-					
-					Graphics g = container.getGraphics();
-					g.copyArea(target, 0, 0);
-					ImageOut.write(target, screenShotFileName) ;
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			wasDownF2 = true;
-		} else if(!Keyboard.isKeyDown(Keyboard.KEY_F2)) {
-			wasDownF2 = false;
-		}
 		
 		if(Client.connected) {
 			tick++;
@@ -264,6 +221,44 @@ public class Board extends BasicGame {
 			menuStack.peek().update(container);
 			
         mouseButtons.update();
+	}
+	
+	public void keyPressed(int key, char c) {
+		super.keyPressed(key, c);
+		
+		if(!menuStack.isEmpty())
+			menuStack.peek().keyPressed(key, c);
+		
+		switch(key) {
+			case Input.KEY_F2:
+				try {
+					String userScreenshotDirectory = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Screenshots\\";
+					String screenShotFileName = userScreenshotDirectory + (new SimpleDateFormat("YYYY-MM-dd_hh.mm.ss").format(new Date())) + ".png";
+					Image target = new Image(container.getWidth(), container.getHeight());
+										
+					File userScreenshots = new File(userScreenshotDirectory);
+					if(!userScreenshots.exists())
+						userScreenshots.mkdirs();
+					
+					container.getGraphics().copyArea(target, 0, 0);
+					ImageOut.write(target, screenShotFileName) ;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				break;
+			case Input.KEY_F11:
+				try {
+					if(!container.isFullscreen()) {
+						Board.container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
+					} else {
+						Board.container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
+					}
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+		}
 	}
 
 	public static int getWidth() {
