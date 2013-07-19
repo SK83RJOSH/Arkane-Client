@@ -136,7 +136,17 @@ public class MapEditor extends Menu {
 		ascendLayer.set(Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8, 27 + Images.hortArrowRight.getHeight());
 		fieldToggle.set(Board.getWidth() - (Images.vertArrow.getWidth() / 3) + (((Images.vertArrow.getWidth() / 3) / 2) - ((Images.hide.getWidth() / 3) / 2)) - 8, 27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + 8);
 		descendLayer.set(Board.getWidth() - (Images.vertArrow.getWidth() / 3) - 8,  27 + Images.hortArrowRight.getHeight() + Images.vertArrow.getHeight() + Images.hide.getHeight() + 16);
-				
+		nextSetPage.set(Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, nextSetPage.getY());
+		nextAlternatePage.set(Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, nextAlternatePage.getY());
+		nextUpgradePage.set(Board.getWidth() - (Images.hortArrowRight.getWidth() / 3) - 8, nextUpgradePage.getY());
+		
+		showSetPage();
+		
+		if(panelExpanded) {
+			showAlternatePage();
+			showUpgradePage();
+		}
+		
 		exitButton.set(8, Board.getHeight() - Images.miniButton.getHeight() - 8);
 		loadButton.set(Board.getWidth() - ((Images.miniButton.getWidth() / 3) * 2) - 16, Board.getHeight() - Images.miniButton.getHeight() - 8);
 		saveButton.set(Board.getWidth() - (Images.miniButton.getWidth() / 3) - 8, Board.getHeight() - Images.miniButton.getHeight() - 8);
@@ -151,21 +161,31 @@ public class MapEditor extends Menu {
 		
 		if(panelExpanded) {
 			showAlternatePage();
+			showUpgradePage();
 		}
 	}
 	
 	private void showSetPage() {		
 		hideComponentRow(8);
+		int freeSpace = (Board.getWidth() - (8 + ((Images.hortArrowLeft.getWidth() / 3)) * 2)) + 8;
+		int displayable = (int) Math.floor(freeSpace * 1f / ((Images.tileSelector.getWidth() / 3) + 16));
+		int padding = (freeSpace - (displayable * ((Images.tileSelector.getWidth() / 3) + 16))) / 2;
 		
-		if(setCount > 10 && setPage < Math.ceil(setCount / 10f))
+		if(setPage > Math.ceil(setCount / (displayable * 1f)))
+			setPage = (int) (Math.ceil(setCount) / (displayable * 1f));
+		
+		if(setPage < 1)
+			setPage = 1;
+				
+		if(setCount > displayable && setPage < Math.ceil(setCount / (displayable * 1f)))
 			addComponent(nextSetPage);
 		if(setPage > 1)
 			addComponent(previousSetPage);
 		
 		int offset = 0;
 		for(final TerrainResource resources : Board.res.getTerrainDefinitions().values()) {	
-			if(offset < 10 * setPage && offset >= 10 * (setPage - 1 > 0 ? setPage - 1 : 0)) {
-				ShowcaseComponent c = new ShowcaseComponent(resources.getBase(0).getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (10 * (setPage - 1 > 0 ? setPage - 1 : 0)))), 8) {
+			if(offset < displayable * setPage && offset >= displayable * (setPage - 1 > 0 ? setPage - 1 : 0)) {
+				ShowcaseComponent c = new ShowcaseComponent(resources.getBase(0).getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + padding + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (displayable * (setPage - 1 > 0 ? setPage - 1 : 0)))), 8) {
 					public void onClick() {
 						selectSet(resources);
 						
@@ -216,16 +236,25 @@ public class MapEditor extends Menu {
 	
 	private void showAlternatePage() {		
 		hideComponentRow(96);
+		int freeSpace = (Board.getWidth() - (8 + ((Images.hortArrowLeft.getWidth() / 3)) * 2)) + 8;
+		int displayable = (int) Math.floor(freeSpace * 1f / ((Images.tileSelector.getWidth() / 3) + 16));
+		int padding = (freeSpace - (displayable * ((Images.tileSelector.getWidth() / 3) + 16))) / 2;
 		
-		if(alternateCount > 10 && alternatePage < Math.ceil(alternateCount / 10f))
+		if(alternatePage > Math.ceil(alternateCount / (displayable * 1f)))
+			alternatePage = (int) (Math.ceil(alternateCount) / (displayable * 1f));
+		
+		if(setPage < 1)
+			alternatePage = 1;
+		
+		if(alternateCount > displayable && alternatePage < Math.ceil(alternateCount / (displayable * 1f)))
 			addComponent(nextAlternatePage);
 		if(alternatePage > 1)
 			addComponent(previousAlternatePage);
 		
 		int offset = 0;
 		for(final TerrainBase alternate : selectedSet.getBases()) {
-			if(offset < 10 * alternatePage && offset >= 10 * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)) {				
-				ShowcaseComponent c = new ShowcaseComponent(alternate.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (10 * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)))), 96) {
+			if(offset < displayable * alternatePage && offset >= displayable * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)) {				
+				ShowcaseComponent c = new ShowcaseComponent(alternate.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + padding + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (displayable * (alternatePage - 1 > 0 ? alternatePage - 1 : 0)))), 96) {
 					public void onClick() {
 						selectAlternate(alternate);
 						
@@ -269,16 +298,25 @@ public class MapEditor extends Menu {
 	
 	private void showUpgradePage() {		
 		hideComponentRow(184);
+		int freeSpace = (Board.getWidth() - (8 + ((Images.hortArrowLeft.getWidth() / 3)) * 2)) + 8;
+		int displayable = (int) Math.floor(freeSpace * 1f / ((Images.tileSelector.getWidth() / 3) + 16));
+		int padding = (freeSpace - (displayable * ((Images.tileSelector.getWidth() / 3) + 16))) / 2;
 		
-		if(upgradeCount > 10 && upgradePage < Math.ceil(upgradeCount / 10f))
+		if(upgradePage > Math.ceil(upgradeCount / (displayable * 1f)))
+			upgradePage = (int) (Math.ceil(upgradeCount) / (displayable * 1f));
+		
+		if(setPage < 1)
+			upgradePage = 1;
+		
+		if(upgradeCount > displayable && upgradePage < Math.ceil(upgradeCount / (displayable * 1f)))
 			addComponent(nextUpgradePage);
 		if(upgradePage > 1)
 			addComponent(previousUpgradePage);
 		
 		int offset = 0;
 		for(final TerrainUpgrade upgrade: selectedAlternate.getValidUpgrades()) {	
-			if(offset < 10 * upgradePage && offset >= 10 * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)) {
-				ShowcaseComponent c = new ShowcaseComponent(upgrade.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + 19 + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (10 * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)))), 184) {
+			if(offset < displayable * upgradePage && offset >= displayable * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)) {
+				ShowcaseComponent c = new ShowcaseComponent(upgrade.getResource(), 8 + (Images.hortArrowLeft.getWidth() / 3) + padding + (((Images.tileSelector.getWidth() / 3) + 16) * (offset - (displayable * (upgradePage - 1 > 0 ? upgradePage - 1 : 0)))), 184) {
 					public void onClick() {
 						try {
 							new Sound("res/sounds/click.ogg").play();

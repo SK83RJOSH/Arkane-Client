@@ -248,13 +248,11 @@ public class Board extends BasicGame {
 				break;
 			case Input.KEY_F11:
 				try {
-					if(!container.isFullscreen()) {
+					if(!container.isFullscreen())
 						Board.container.setDisplayMode(container.getScreenWidth(), container.getScreenHeight(), true);
-					} else {
+					else
 						Board.container.setDisplayMode(STARTING_WIDTH, STARTING_HEIGHT, false);
-					}
 				} catch (SlickException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;

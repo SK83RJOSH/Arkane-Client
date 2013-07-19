@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -24,7 +24,7 @@ public class Resources {
 	private String resourceLocation = aeternalLocation + "\\Resources";
 	private String remoteLocation = "http://vps.kieraan.co.uk/~Josh/";
 	private File resources;
-	private HashMap<String, TerrainResource> terrainResources = new HashMap<String, TerrainResource>();
+	private LinkedHashMap<String, TerrainResource> terrainResources = new LinkedHashMap<String, TerrainResource>();
 	
 	public Resources() {
 		if(!Board.debugging)
@@ -36,7 +36,7 @@ public class Resources {
 	public void checkResources() {
 		long startTime = System.currentTimeMillis();
 		HTTP httpConnection = new HTTP();
-		String JSONResult = httpConnection.post(remoteLocation + "arkaneResources.php", new HashMap<String, String>());
+		String JSONResult = httpConnection.post(remoteLocation + "arkaneResources.php", new LinkedHashMap<String, String>());
 		
 		try {
 			JSONObject JSONParser = new JSONObject(JSONResult);
@@ -144,7 +144,7 @@ public class Resources {
 		return null;
 	}
 	
-	public HashMap<String, TerrainResource> getTerrainDefinitions() {
+	public LinkedHashMap<String, TerrainResource> getTerrainDefinitions() {
 		return terrainResources;
 	}
 }
