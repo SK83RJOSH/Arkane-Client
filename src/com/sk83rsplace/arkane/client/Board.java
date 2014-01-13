@@ -48,7 +48,7 @@ public class Board extends BasicGame {
 	public static Client client;
 	public static CopyOnWriteArrayList<Player> clients = new CopyOnWriteArrayList<Player>();
 	public static Stack<Menu> menuStack = new Stack<Menu>();
-	public static MouseButtons mouseButtons = new MouseButtons();
+	public static MouseButtons mouseButtons;
 	public static ArrayList<Character> invalidKeys = new ArrayList<Character>(); 
 	public static Resources res;
 	public static String username = "Bob";
@@ -139,6 +139,10 @@ public class Board extends BasicGame {
     		e.printStackTrace();
     	} 
 		
+		container.getInput().enableKeyRepeat();
+		
+		mouseButtons = new MouseButtons();
+		
 		loadProperties();
 		debugging = ((Board.properties.getProperty("debug_mode") == null ? false : Board.properties.getProperty("remember_me").equals("1")) ? true : false);
 		res = new Resources();
@@ -152,7 +156,7 @@ public class Board extends BasicGame {
 	
 	public void update(GameContainer container, int delta) throws SlickException {
 		//TODO: Implement Delta into movement		
-		for(int button = 0; button < 4; button++) {
+		for(int button = 0; button < Mouse.getButtonCount(); button++) {
 			if(Mouse.isButtonDown(button)) {
 		        mouseButtons.setNextState(button, true);
 			} else {
