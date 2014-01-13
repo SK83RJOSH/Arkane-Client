@@ -22,7 +22,7 @@ import com.sk83rsplace.arkane.utils.HTTP;
 public class Resources {
 	private String aeternalLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal";
 	private String resourceLocation = aeternalLocation + "\\Resources";
-	private String remoteLocation = "http://vps.kieraan.co.uk/~Josh/";
+	private String remoteLocation = "http://josh.chopdawg.com/arkane/";
 	private File resources;
 	private LinkedHashMap<String, TerrainResource> terrainResources = new LinkedHashMap<String, TerrainResource>();
 	

@@ -77,7 +77,7 @@ public class MainMenu extends Menu {
 		params.put("userID", "" + (Board.userID));
 		
 		HTTP httpConnection = new HTTP();
-		String JSONResult = httpConnection.post("http://vps.kieraan.co.uk/~Josh/listCharacters.php", params);
+		String JSONResult = httpConnection.post("http://josh.chopdawg.com/arkane/listCharacters.php", params);
 		
 		try {
 			JSONObject JSONParser = new JSONObject(JSONResult);

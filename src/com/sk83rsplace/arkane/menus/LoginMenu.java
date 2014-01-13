@@ -66,7 +66,7 @@ public class LoginMenu extends Menu {
 		params.put("password", HTTP.MD5(passwordField.getValue()));
 		
 		HTTP httpConnection = new HTTP();
-		String JSONResult = httpConnection.post("http://vps.kieraan.co.uk/~Josh/login.php", params);
+		String JSONResult = httpConnection.post("http://josh.chopdawg.com/arkane/login.php", params);
 		
 		try {
 			JSONObject JSONParser = new JSONObject(JSONResult);

@@ -38,7 +38,7 @@ public class ServerListMenu extends Menu {
 	
 	private void getServers() {
 		HTTP httpConnection = new HTTP();
-		String JSONResult = httpConnection.post("http://vps.kieraan.co.uk/~Josh/listServers.php", new HashMap<String, String>());
+		String JSONResult = httpConnection.post("http://josh.chopdawg.com/arkane/listServers.php", new HashMap<String, String>());
 		
 		try {
 			JSONObject JSONParser = new JSONObject(JSONResult);
