@@ -59,6 +59,8 @@ public abstract class Menu implements IKeyListener, IRenderable {
 	
 	public void addComponent(Component c) {
 		c.setParent(this);
+		c.onInitialization(Board.container);
+		
 		components.add(c);
 	}
 	

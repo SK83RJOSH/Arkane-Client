@@ -113,8 +113,8 @@ public class MainMenu extends Menu {
 				if(index == 0)
 					Board.characterID = character.getInt("character_id");
 					
-				characterComponents.add(component);
 				addComponent(component);
+				characterComponents.add(component);
 			}
 			
 			if(characters.length() == 0)

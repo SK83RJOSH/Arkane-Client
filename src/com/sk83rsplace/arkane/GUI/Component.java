@@ -16,7 +16,7 @@ public abstract class Component implements IRenderable {
 	private Vector2f pos;
 	private Dimension dim;
 	private boolean active;
-	private boolean initialized;
+	private boolean reinitialize;
 	private Menu parent;
 	
 	public Component() {
@@ -31,9 +31,9 @@ public abstract class Component implements IRenderable {
 			active = false;
 		}
 		
-		if(!initialized) {
+		if(reinitialize) {
 			onInitialization(container);
-			initialized = true;
+			reinitialize = false;
 		}
 	}
 	
@@ -72,7 +72,7 @@ public abstract class Component implements IRenderable {
 	}
 	
 	public void reInitialize() {
-		initialized = false;
+		reinitialize = true;
 	}
 	
 	public void setParent(Menu parent) {

@@ -18,7 +18,9 @@ public class LabelComponent extends TextComponent {
 		this.parent = parent;
 	}
 	
-	public void render(GameContainer container, Graphics g) {		
+	public void render(GameContainer container, Graphics g) {
+		g.setFont(font);
+		
 		set(parent.getX() - getWidth(), parent.getY() + (parent.getHeight() / 2) - (getHeight() / 2));
 		
 		g.setColor(Color.black);

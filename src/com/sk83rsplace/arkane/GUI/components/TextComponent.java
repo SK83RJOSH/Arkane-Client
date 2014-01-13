@@ -14,9 +14,9 @@ import com.sk83rsplace.arkane.GUI.interfaces.IValuedString;
  * @author SK83RJOSH
  */
 public class TextComponent extends Component implements IValuedString {
-	private String content = "";
-	private Color textColor = Color.white;
-	private TrueTypeFont font = Fonts.normalPoint;
+	protected String content = "";
+	protected Color textColor = Color.white;
+	protected TrueTypeFont font = Fonts.normalPoint;
 	
 	public TextComponent(String content, Color textColor, int x, int y) {
 		this.content = content;
