@@ -1,14 +1,13 @@
 package com.sk83rsplace.arkane.GUI.components;
 
 import org.newdawn.slick.Color;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.TrueTypeFont;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.Fonts;
-import com.sk83rsplace.arkane.client.interfaces.IValuedString;
+import com.sk83rsplace.arkane.GUI.interfaces.IValuedString;
 
 /**
  * 

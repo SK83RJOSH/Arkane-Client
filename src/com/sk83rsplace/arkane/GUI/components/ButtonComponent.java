@@ -9,8 +9,8 @@ import org.newdawn.slick.Sound;
 
 import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.GUI.Images;
+import com.sk83rsplace.arkane.GUI.interfaces.IClickable;
 import com.sk83rsplace.arkane.client.Board;
-import com.sk83rsplace.arkane.client.interfaces.IClickable;
 
 /**
  * 

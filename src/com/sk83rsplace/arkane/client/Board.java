@@ -41,7 +41,7 @@ public class Board extends BasicGame {
 	private static int STARTING_WIDTH = 640;
 	private static int STARTING_HEIGHT = 512;
 	private static ScalableGame game;
-	private static AppGameContainer container;
+	public static AppGameContainer container;
 	public static Properties properties;
 	public static String userSettingsLocation = System.getProperty("user.home") + "\\Slightly Undead\\Aeternal\\Settings\\settings.prop";
 	public static File settings;

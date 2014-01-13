@@ -5,8 +5,8 @@ import org.lwjgl.util.Dimension;
 import org.lwjgl.util.vector.Vector2f;
 import org.newdawn.slick.GameContainer;
 
+import com.sk83rsplace.arkane.GUI.interfaces.IRenderable;
 import com.sk83rsplace.arkane.client.Board;
-import com.sk83rsplace.arkane.client.interfaces.IRenderable;
 
 /**
  * 

@@ -3,6 +3,8 @@ package com.sk83rsplace.arkane.client.interfaces;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.sk83rsplace.arkane.GUI.interfaces.IRenderable;
+
 public interface IWorld extends IRenderable {
 	public Vector3f getPos();
 	public void setPos(Vector3f position);

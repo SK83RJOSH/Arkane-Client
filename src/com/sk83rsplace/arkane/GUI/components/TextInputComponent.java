@@ -1,31 +1,33 @@
 package com.sk83rsplace.arkane.GUI.components;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
-import com.sk83rsplace.arkane.GUI.Component;
 import com.sk83rsplace.arkane.client.Board;
-import com.sk83rsplace.arkane.client.interfaces.IKeyListener;
-import com.sk83rsplace.arkane.client.interfaces.IValuedString;
+import com.sk83rsplace.arkane.GUI.Component;
+import com.sk83rsplace.arkane.GUI.interfaces.IKeyListener;
+import com.sk83rsplace.arkane.GUI.interfaces.IValuedString;
 
 /**
  * 
  * @author SK83RJOSH
  */
 public class TextInputComponent extends Component implements IValuedString, IKeyListener {
-	private String placeholder = "", content = "";
-	private boolean isSelected = false;
-	private boolean password = false;
-	private int tick;
+	protected String placeholder = "";
+	protected String content = "";
+	protected boolean isSelected = false;
+	protected boolean password = false;
+	protected int tick;
 	
 	public TextInputComponent(String placeholder, String content, int x, int y) {
 		this.placeholder = placeholder;
 		this.content = content;
 		set(x, y);
-		setSize(258, 22);
+		setSize(258, Board.container.getDefaultFont().getLineHeight() + 12);
 	}
 	
 	public TextInputComponent(String placeholder, String content, int x, int y, boolean password) {
@@ -33,7 +35,7 @@ public class TextInputComponent extends Component implements IValuedString, IKey
 		this.content = content;
 		this.password = password;
 		set(x, y);
-		setSize(258, 22);
+		setSize(258, Board.container.getDefaultFont().getLineHeight() + 12);
 	}
 	
 	public void render(GameContainer container, Graphics g) {
@@ -67,7 +69,7 @@ public class TextInputComponent extends Component implements IValuedString, IKey
 			
 			if(isSelected && tick > 20 && tick < 40) {
 				g.setColor(Color.white);
-				g.drawString("|", getX() + 4 + container.getDefaultFont().getWidth((password ? maskedContent : content)) - (container.getDefaultFont().getWidth((password ? maskedContent : content)) > getWidth() - 12 ? 12 + (container.getDefaultFont().getWidth((password ? maskedContent : content)) - getWidth()) : 0),  getY() + 6);
+				g.drawString("|", getX() + (container.getDefaultFont().getWidth(" ") / 2) + container.getDefaultFont().getWidth((password ? maskedContent : content)) - (container.getDefaultFont().getWidth((password ? maskedContent : content)) > getWidth() - 12 ? 12 + (container.getDefaultFont().getWidth((password ? maskedContent : content)) - getWidth()) : 0),  getY() + 6);
 			}
 		g.setClip(0, 0, container.getWidth(), container.getHeight());
 	}
@@ -98,7 +100,7 @@ public class TextInputComponent extends Component implements IValuedString, IKey
 	}
 	
 	public void keyPressed(int key, char c) {
-		if(c > 37 && c < 128) { //Character isn't Control Character and is ASCII
+		if(c > 31 && c < 128) { //Character isn't Control Character and is ASCII
 			content += c;
 			onValueChange();
 		} else {
@@ -113,7 +115,10 @@ public class TextInputComponent extends Component implements IValuedString, IKey
 					isSelected = false;
 					break;
 				case Input.KEY_TAB:
-					getParent().selectNext();
+					if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+						getParent().selectPrevious();
+					else
+						getParent().selectNext();
 					break;
 			}	
 		}

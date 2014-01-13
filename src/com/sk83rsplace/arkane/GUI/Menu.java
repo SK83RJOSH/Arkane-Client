@@ -8,9 +8,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 
 import com.sk83rsplace.arkane.GUI.components.TextInputComponent;
+import com.sk83rsplace.arkane.GUI.interfaces.IKeyListener;
+import com.sk83rsplace.arkane.GUI.interfaces.IRenderable;
 import com.sk83rsplace.arkane.client.Board;
-import com.sk83rsplace.arkane.client.interfaces.IKeyListener;
-import com.sk83rsplace.arkane.client.interfaces.IRenderable;
 
 /**
  * 
@@ -78,7 +78,41 @@ public abstract class Menu implements IKeyListener, IRenderable {
 		return color;
 	}
 
-	public void selectNext() {		
+	public void selectPrevious() {
+		if(nextTimeout == 0) {
+			boolean foundCurrent = false, selected = false;
+						
+			for(int index = components.size() - 1; index > 0; index--) {
+				Component c = components.get(index);
+							
+				if(c instanceof TextInputComponent) {
+					if(((TextInputComponent) c).isSelected() && !foundCurrent) {
+						foundCurrent = true;
+						((TextInputComponent) c).setSelected(false);
+					} else if(foundCurrent && !selected) {
+						((TextInputComponent) c).setSelected(true);
+						selected = true;
+					}
+				}
+			}
+			
+			if(foundCurrent && !selected) {
+				TextInputComponent component = null;
+				
+				for(Component c : components) {
+					if(c instanceof TextInputComponent) {
+						component = (TextInputComponent) c;
+					}
+				}
+				
+				component.setSelected(true);
+			}
+			
+			nextTimeout = 5;
+		}
+	}
+
+	public void selectNext() {
 		if(nextTimeout == 0) {
 			boolean foundCurrent = false, selected = false;
 			
@@ -96,7 +130,16 @@ public abstract class Menu implements IKeyListener, IRenderable {
 				}
 			}
 			
-			nextTimeout = 15;
+			if(foundCurrent && !selected) {
+				for(Component c : components) {
+					if(c instanceof TextInputComponent && !selected) {
+						((TextInputComponent) c).setSelected(true);
+						selected = true;
+					}
+				}
+			}
+			
+			nextTimeout = 5;
 		}
 	}
 }
