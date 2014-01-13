@@ -73,4 +73,10 @@ public class CreditsMenu extends Menu {
 			Board.menuStack.add(new MainMenu());
 		}
 	}
+	
+	public void resize() {
+		for(Component c : components) {
+			c.set(-1, c.getY());
+		}
+	}
 }
